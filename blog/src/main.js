@@ -6,10 +6,12 @@ import { createRouter, createWebHistory } from "vue-router";
 //
 import HelloWorld from "./components/HelloWorld.vue";
 import Contact from "./components/contact.vue";
+import Login from "./components/login.vue";
 
 const routes = [
   { path: "/", component: HelloWorld }, // Trang chủ
   { path: "/contact", component: Contact },
+  { path: "/login", component: Login },
 ];
 const router = createRouter({
   history: createWebHistory(),

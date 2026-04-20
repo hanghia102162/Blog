@@ -2,14 +2,16 @@
   <div
     class="w-screen h-screen flex flex-col justify-center items-center gap-3"
   >
-    <h1 class="text-blue-500 text-6xl font-medium">Blog</h1>
+    <h1 class="text-blue-500 text-5xl md:text-6xl font-medium">Blog</h1>
     <h2 class="font-normal text-4xl" v-if="khoiPhuc1">
       Đăng nhập với tài khoản Zalo
     </h2>
     <h2 class="font-normal text-4xl" v-if="khoiPhuc2">
       Khôi phục mật khẩu Zalo
     </h2>
-    <h2 class="font-normal text-4xl">để kết nối dứng dụng Blog web</h2>
+    <h2 class="font-normal text-2xl md:text-4xl">
+      để kết nối dứng dụng zalo web
+    </h2>
     <div
       class="bg-white p-4 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
     >

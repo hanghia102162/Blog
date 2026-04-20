@@ -83,32 +83,40 @@
       </div>
 
       <!-- Icon -->
-      <div class="hidden md:flex gap-3 text-white text-lg relative">
-        <ion-icon
-          name="person-circle-outline"
-          class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
-        ></ion-icon>
-        <ion-icon
-          name="logo-facebook"
-          class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
-        ></ion-icon>
-        <ion-icon
-          name="logo-instagram"
-          class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
-        ></ion-icon>
-        <ion-icon
-          name="logo-google"
-          class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
-        ></ion-icon>
-        <ion-icon
-          @click="openInputToggle()"
-          name="search-outline"
-          class="hover:scale-[120%] z-50 transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
-        ></ion-icon>
+      <div
+        class="hidden md:flex items-center gap-3 text-white text-lg relative"
+      >
+        <router-link to="/login">
+          <ion-icon
+            name="person-circle-outline"
+            class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+          ></ion-icon>
+        </router-link>
+
+        <router-link to="">
+          <ion-icon
+            name="logo-facebook"
+            class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+          ></ion-icon>
+        </router-link>
+
+        <router-link to="">
+          <ion-icon
+            name="logo-google"
+            class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+          ></ion-icon>
+        </router-link>
+        <button class="z-50">
+          <ion-icon
+            @click="openInputToggle()"
+            name="search-outline"
+            class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+          ></ion-icon>
+        </button>
         <transition name="slide">
           <input
             type="text"
-            class="border right-0 absolute bg-blue-500 z-49 -translate-y-1/5 focus:outline-none"
+            class="border right-0 absolute bg-blue-500 z-49 -translate-y-1/9 focus:outline-none"
             v-if="openInput"
           />
         </transition>

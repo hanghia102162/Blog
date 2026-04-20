@@ -1,14 +1,15 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
 import Header from "./components/header.vue";
 import Footer from "./components/footer.vue";
-import Contact from "./components/contact.vue";
-import Login from "./components/login.vue";
+import { useRoute } from "vue-router";
+import { computed } from "vue";
+const route = useRoute();
+const isNotLoginPage = computed(() => route.path !== "/login");
 </script>
 
 <template>
-  <Header />
+  <Header v-if="isNotLoginPage" />
   <router-view />
 
-  <Footer />
+  <Footer v-if="isNotLoginPage" />
 </template>
