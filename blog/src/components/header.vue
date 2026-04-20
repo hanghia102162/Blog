@@ -13,10 +13,11 @@
 
       <!-- Menu -->
       <div class="hidden md:flex gap-6 text-white text-sm">
-        <a
+        <router-link
+          to="/"
           href="#"
           class="relative after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-          >Home</a
+          >Home</router-link
         >
         <div class="relative group">
           <a
@@ -24,7 +25,7 @@
             class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
             >Viet+</a
           >
-          <!-- trỏ xuống -->
+          <!-- trỏ hover xuống -->
           <div
             class="absolute top-[40px] left-[-10px] transition-all duration-300 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
           >
@@ -73,15 +74,20 @@
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
           >About</a
         >
-        <a
+        <router-link
+          to="/contact"
           href="#"
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-          >Contact</a
+          >Contact</router-link
         >
       </div>
 
       <!-- Icon -->
       <div class="hidden md:flex gap-3 text-white text-lg relative">
+        <ion-icon
+          name="person-circle-outline"
+          class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+        ></ion-icon>
         <ion-icon
           name="logo-facebook"
           class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
@@ -113,7 +119,7 @@
         </button>
       </div>
     </div>
-    <!-- model -->
+    <!--  => mobile -->
     <transition name="fade-slide" class="absolute w-full">
       <div
         v-if="opent"
@@ -121,12 +127,14 @@
       >
         <ul class="w-full">
           <li class="w-full">
-            <a
+            <router-link
+              @click="opentmodel()"
+              to="/"
               href="#"
               class="block hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
             >
               Home
-            </a>
+            </router-link>
           </li>
 
           <li class="w-full">
@@ -170,15 +178,21 @@
           </li>
 
           <li class="w-full">
-            <a
+            <router-link
+              to="/contact"
               href="#"
               class="block hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
+              @click="opentmodel()"
             >
               Contact
-            </a>
+            </router-link>
           </li>
         </ul>
         <div class="flex gap-4 justify-center items-center text-xl text-white">
+          <ion-icon
+            name="person-circle-outline"
+            class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
+          ></ion-icon>
           <ion-icon
             name="logo-facebook"
             class="cursor-pointer rounded-full hover:-translate-y-1 transition duration-500 ease-in-out hover:shadow-[0_0_10px_rgba(255,255,255,0.5)]"
@@ -231,7 +245,7 @@
   opacity: 1;
 }
 .slide-enter-active {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 
 .slide-leave-from {
@@ -243,7 +257,7 @@
   opacity: 0;
 }
 .slide-leave-active {
-  transition: all 1s ease;
+  transition: all 0.5s ease;
 }
 </style>
 <script setup>
