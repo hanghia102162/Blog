@@ -3,11 +3,9 @@
     class="w-screen h-screen flex flex-col justify-center items-center gap-3"
   >
     <h1 class="text-blue-500 text-5xl md:text-6xl font-medium">Blog</h1>
-    <h2 class="font-normal text-2xl md:text-4xl">
-      Đăng nhập với tài khoản BLog
-    </h2>
+    <h2 class="font-normal text-4xl">Vui lòng nhập mã OTP</h2>
 
-    <h2 class="font-normal text-2xl md:text-4xl">để kết nối dứng dụng Blog</h2>
+    <h2 class="font-normal text-2xl md:text-4xl">Và thông tin mật khẩu mới</h2>
     <div
       class="bg-white p-4 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
     >
@@ -42,7 +40,7 @@
           <label
             for="otp1"
             class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
-            >Email</label
+            >OTP</label
           >
         </div>
         <div class="w-full relative">
@@ -69,16 +67,43 @@
             for="otp2"
             class="absolute left-2 top-1/2 -translate-y-1/2 left-0 peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base peer-focus:top-[-10px] transition-all duration-500 ease-linear"
           >
-            Mật khẩu
+            Mật khẩu mới
+          </label>
+        </div>
+
+        <div class="w-full relative">
+          <input
+            id="otp2"
+            type="text"
+            placeholder=" "
+            v-model="password"
+            class="w-full peer focus:outline-none p-2 shadow"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="size-6 absolute top-1/2 -translate-y-1/2 right-0"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <label
+            for="otp2"
+            class="absolute left-2 top-1/2 -translate-y-1/2 left-0 peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base peer-focus:top-[-10px] transition-all duration-500 ease-linear"
+          >
+            Xác nhận mật khẩu mới
           </label>
         </div>
         <button
           class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
         >
-          Đăng nhập với mật khẩu
+          Xác nhận
         </button>
-        <router-link to="/register">Đăng kí tài khoản</router-link>
-        <router-link to="/reissue">Quên mật khẩu</router-link>
+        <router-link to="/login">Quay lại</router-link>
       </form>
     </div>
   </div>
