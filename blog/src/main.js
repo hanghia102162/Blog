@@ -9,17 +9,31 @@ import Contact from "./components/contact.vue";
 import Login from "./components/login.vue";
 import Register from "./components/register.vue";
 import Reissue from "./components/reissue.vue";
+import IT from "./components/IT.vue";
+import ArticleDetails from "./components/articleDetails.vue";
+import About from "./components/about.vue";
+import ManagePost from "./components/managerPost.vue";
+import Edit from "./components/edit.vue";
 const routes = [
   { path: "/", component: HelloWorld },
   { path: "/contact", component: Contact },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
   { path: "/reissue", component: Reissue },
+  { path: "/IT", component: IT },
+  { path: "/articleDetails", component: ArticleDetails },
+  { path: "/about", component: About },
+  { path: "/managerPost", component: ManagePost },
+  { path: "/edit", component: Edit },
 ];
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior() {
+    return { top: 0 }; // luôn về đầu trang
+  },
 });
+
 const app = createApp(App);
 app.use(router);
 app.mount("#app");

@@ -5,25 +5,17 @@
       :key="index"
       class="w-full md:w-[70%] flex flex-col gap-3 justify-center mt-20 items-center"
     >
-      <router-link
-        to="/articleDetails"
-        class="text-3xl w-auto md:w-[50%] text-center font-bold"
-        ><h1 class="w-full">
-          {{ post.Title }}
-        </h1></router-link
-      >
+      <h1 class="text-3xl w-auto md:w-[50%] text-center font-bold">
+        {{ post.Title }}
+      </h1>
       <p class="text-gray-600">{{ post.Meta }}</p>
-      <router-link to="/articleDetails">
-        <div
-          class="w-screen overflow-hidden md:w-[800px] md:h-[350px] h-[250px]"
-        >
-          <img
-            src="../img/1.jpg"
-            alt=""
-            class="w-full h-full object-cover rounded-lg hover:scale-110 duration-500 transition-all"
-          />
-        </div>
-      </router-link>
+      <div class="w-full md:w-[800px] md:h-[350px] h-[250px]">
+        <img
+          src="../img/2.png"
+          alt=""
+          class="w-full h-full object-cover rounded-lg"
+        />
+      </div>
       <p class="leading-relaxed text-justify md:w-[50%] w-[90%] p-3">
         {{ post.Content }}
       </p>

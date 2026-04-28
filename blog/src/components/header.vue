@@ -27,7 +27,7 @@
           >
           <!-- trỏ hover xuống -->
           <div
-            class="absolute top-[40px] left-[-10px] transition-all duration-300 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
+            class="absolute mt-[20px] left-[-10px] transition-all duration-300 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0"
           >
             <!-- mũi nhọn -->
             <div
@@ -35,50 +35,60 @@
             ></div>
 
             <!-- box -->
-            <div class="w-[160px] bg-white rounded-xl shadow-lg py-2">
+            <div class="w-[170px] bg-white rounded-xl shadow-lg py-2">
               <ul class="text-black text-sm">
                 <li
                   class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  Ghi chép
+                  <router-link to="/IT">Công nghệ thông tin</router-link>
                 </li>
 
                 <li
                   class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  Chuyện
+                  Y tế & Sức khỏe
                 </li>
 
                 <li
                   class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  Nhật Kí
+                  Thể thao
                 </li>
-
                 <li
                   class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  Thơ
+                  Kỹ năng mềm
+                </li>
+                <li
+                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                >
+                  Giáo dục & Đào tạo
+                </li>
+                <li
+                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                >
+                  Văn hóa - Nghệ thuật
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <a
+        <router-link
+          to="/managerPost"
           href="#"
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-          >Translations</a
+          >Manage post</router-link
         >
-        <a
-          href="#"
+        <router-link
+          to="/about"
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-          >About</a
+          >About</router-link
         >
         <router-link
           to="/contact"
           href="#"
           class="relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full"
-          >Contact</router-link
+          >Author registration</router-link
         >
       </div>
 
@@ -159,30 +169,33 @@
             v-show="openViet"
             class="bg-blue-200 text-sm transition-all duration-300"
           >
-            <li class="py-2 hover:bg-gray-300">Ghi chép</li>
-            <li class="py-2 hover:bg-gray-300">Chuyện</li>
-            <li class="py-2 hover:bg-gray-300">Nhật ký</li>
-            <li class="py-2 hover:bg-gray-300">Thơ</li>
-            <li class="py-2 hover:bg-gray-300">Tất cả</li>
+            <li class="py-2 hover:bg-gray-300">Công nghệ thông tin</li>
+            <li class="py-2 hover:bg-gray-300">Y tế & Sức khỏe</li>
+            <li class="py-2 hover:bg-gray-300">Thể thao</li>
+            <li class="py-2 hover:bg-gray-300">Kỹ năng mềm</li>
+            <li class="py-2 hover:bg-gray-300">Giáo dục & Đào tạo</li>
+            <li class="py-2 hover:bg-gray-300">Văn hóa - Nghệ thuật</li>
           </ul>
           <!--  -->
 
           <li class="w-full">
-            <a
-              href="#"
+            <router-link
+              to="/managerPost"
+              @click="opentmodel()"
               class="block hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
             >
-              Translations
-            </a>
+              Manage post
+            </router-link>
           </li>
 
           <li class="w-full">
-            <a
-              href="#"
+            <router-link
+              to="/about"
+              @click="opentmodel()"
               class="block hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
             >
               About
-            </a>
+            </router-link>
           </li>
 
           <li class="w-full">
@@ -192,7 +205,7 @@
               class="block hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
               @click="opentmodel()"
             >
-              Contact
+              Author registration
             </router-link>
           </li>
         </ul>

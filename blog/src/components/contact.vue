@@ -1,59 +1,102 @@
 <template>
-  <div class="w-full min-h-[87vh] p-3 flex justify-center items-center">
-    <div class="md:w-[40%] flex flex-col gap-3 justify-center items-center">
-      <h1 class="text-3xl font-medium">Text me!</h1>
-      <p class="mt-10">
-        Don’t hesitate sending me an email! I love them than any kind of
-        messages (well, but not as much as I love postal letters). As Phyllis
-        Theroux said, “To send a letter is a good way to go somewhere without
-        moving anything but your heart.”
+  <div class="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div class="w-[600px] bg-white rounded-xl shadow-md p-6">
+      <!-- Back -->
+      <router-link to="/" class="text-sm text-purple-600 hover:underline">
+        ← Quay lại Trang chủ
+      </router-link>
+
+      <!-- Title -->
+      <h2 class="text-xl font-semibold mt-3">Đăng Ký Trở Thành Tác Giả ✍️</h2>
+
+      <p class="text-gray-500 text-sm mt-1 mb-4">
+        Hãy cho chúng tôi biết bạn muốn đóng góp nội dung gì cho cộng đồng nhé!
       </p>
-      <form class="w-full m-10 flex flex-col gap-7">
-        <div class="relative">
-          <input
-            type="text"
-            placeholder=" "
-            class="border peer md:w-[250px] text-[20px] focus:outline-none p-1"
-          />
+
+      <!-- Question 1 -->
+      <div class="mb-4">
+        <p class="font-medium mb-2">
+          1. Bạn muốn viết về chủ đề nào? (Chọn nhiều)
+        </p>
+
+        <div class="flex flex-wrap gap-2">
           <label
-            for=""
-            class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
-            >Name</label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-        </div>
-        <div class="relative">
-          <input
-            type="text"
-            placeholder=" "
-            class="border peer md:w-[250px] text-[20px] focus:outline-none p-1"
-          />
+            <input type="checkbox" class="accent-purple-500" />
+            Công nghệ thông tin
+          </label>
+
           <label
-            for=""
-            class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
-            >Email</label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-        </div>
-        <div class="relative">
-          <textarea
-            type="textarea"
-            class="border peer md:w-[350px] md:h-[150px] text-[20px] focus:outline-none p-1"
-          />
+            <input type="checkbox" class="accent-purple-500" />
+            server-test
+          </label>
+
           <label
-            for=""
-            class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
-            >Comment</label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
+            <input type="checkbox" class="accent-purple-500" />
+            Y tế & Sức khỏe
+          </label>
+
+          <label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
+          >
+            <input type="checkbox" class="accent-purple-500" />
+            Giáo dục & Đào tạo
+          </label>
+
+          <label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
+          >
+            <input type="checkbox" class="accent-purple-500" />
+            Thể thao
+          </label>
+
+          <label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
+          >
+            <input type="checkbox" class="accent-purple-500" />
+            Kinh tế - Tài chính
+          </label>
+
+          <label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
+          >
+            <input type="checkbox" class="accent-purple-500" />
+            Kỹ năng mềm
+          </label>
+
+          <label
+            class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
+          >
+            <input type="checkbox" class="accent-purple-500" />
+            Văn hóa - Nghệ thuật
+          </label>
         </div>
-        <div class="flex gap-3">
-          <input type="checkbox" />
-          <label for="">I want to receive updates from Rio Lam.</label>
-        </div>
-        <button
-          class="border w-[65px] h-[35px] rounded-[15px] bg-blue-500 text-white hover:bg-blue-600 transition-all duration-300"
-        >
-          Submit
-        </button>
-      </form>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="mb-4">
+        <p class="font-medium mb-2">
+          2. Tại sao bạn muốn trở thành tác giả? (Kinh nghiệm, mục tiêu...)
+        </p>
+
+        <textarea
+          rows="4"
+          placeholder="Mình là sinh viên IT, mình muốn chia sẻ kiến thức về lập trình web..."
+          class="w-full border rounded p-2 outline-none focus:ring-2 focus:ring-purple-400"
+        ></textarea>
+      </div>
+
+      <!-- Button -->
+      <button
+        class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-5 py-2 rounded shadow hover:scale-105 transition"
+      >
+        Gửi Yêu Cầu Đăng Ký
+      </button>
     </div>
   </div>
 </template>

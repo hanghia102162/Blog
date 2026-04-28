@@ -12,6 +12,5 @@ const isNotReissue = computed(() => route.path !== "/reissue");
 <template>
   <Header v-if="isNotLoginPage && isNotRegister && isNotReissue" />
   <router-view />
-
   <Footer v-if="isNotLoginPage && isNotRegister && isNotReissue" />
 </template>
