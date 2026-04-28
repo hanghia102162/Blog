@@ -18,7 +18,7 @@
           class="w-screen overflow-hidden md:w-[800px] md:h-[350px] h-[250px]"
         >
           <img
-            src="../img/1.jpg"
+            src="../../img/1.jpg"
             alt=""
             class="w-full h-full object-cover rounded-lg hover:scale-110 duration-500 transition-all"
           />
@@ -69,7 +69,7 @@ const posts = [
     Title:
       "Và cái chết không thể nào thống trị | And death shall have no dominion – Dylan Thomas",
     Meta: "Published March 18, 2020 by Rio Lam",
-    Image: "../img/1.jpg",
+    Image: "../../img/1.jpg",
     Content: `/Well, it’s me, again with my fav poet. / Và cái chết không thể nào
         thống trị. Muôn người nằm xuống, loã thể, hoà một thân Nơi đấng trong
         gió, nơi vầng nguyệt Tây phương Khi xương tàn đã sạch và xương không còn
@@ -82,7 +82,7 @@ const posts = [
   {
     Title: "“Nhớ khi nao lúc ra đi…”",
     Meta: "Published November 12, 2018 by Rio Lam",
-    Image: "../img/1.jpg",
+    Image: "../../img/1.jpg",
     Content: `Đã thành lệ hằng năm, cứ đến tháng 11 là mình sẽ đem lòng nhớ Tết.`,
   },
 ];

@@ -7,7 +7,7 @@
             class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] transition-all duration-500 hover:shadow-[0_0_15px_rgba(255,215,0,0.6)] lg:h-[500px] lg:w-[500px] rounded-full overflow-hidden bg-red-300"
           >
             <img
-              src="../img/1.jpg"
+              src="../../img/1.jpg"
               alt=""
               class="w-full h-full rounded-full object-center hover:scale-110 transition-all duration-500"
             />

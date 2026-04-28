@@ -13,7 +13,7 @@
       <p class="text-gray-600">{{ PostDetail.Meta }}</p>
       <div class="w-full md:w-[900px] md:h-[450px] h-[250px]">
         <img
-          src="../img/1.jpg"
+          src="../../img/1.jpg"
           alt=""
           class="w-full h-full object-cover rounded-lg"
         />

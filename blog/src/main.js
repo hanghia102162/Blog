@@ -4,27 +4,44 @@ import App from "./App.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 //
-import HelloWorld from "./components/HelloWorld.vue";
-import Contact from "./components/contact.vue";
-import Login from "./components/login.vue";
-import Register from "./components/register.vue";
-import Reissue from "./components/reissue.vue";
-import IT from "./components/IT.vue";
-import ArticleDetails from "./components/articleDetails.vue";
-import About from "./components/about.vue";
-import ManagePost from "./components/managerPost.vue";
-import Edit from "./components/edit.vue";
+import UserLayout from "./layouts/UserLayout.vue";
+import AdminLayout from "./layouts/AdminLayout.vue";
+//
+import HelloWorld from "./pages/user/HelloWorld.vue";
+import Contact from "./pages/user/contact.vue";
+import Login from "./pages/auth/login.vue";
+import Register from "./pages/auth/register.vue";
+import Reissue from "./pages/auth/reissue.vue";
+import IT from "./pages/user/IT.vue";
+import ArticleDetails from "./pages/user/articleDetails.vue";
+import About from "./pages/user/about.vue";
+import ManagePost from "./pages/user/managerPost.vue";
+import Edit from "./pages/user/edit.vue";
+import CreatePost from "./pages/user/createPost.vue";
 const routes = [
-  { path: "/", component: HelloWorld },
-  { path: "/contact", component: Contact },
+  {
+    path: "/",
+    component: UserLayout,
+    children: [
+      { path: "", component: HelloWorld },
+      { path: "contact", component: Contact },
+      { path: "IT", component: IT },
+      { path: "articleDetails", component: ArticleDetails },
+      { path: "about", component: About },
+      { path: "managerPost", component: ManagePost },
+      { path: "edit", component: Edit },
+      { path: "createPost", component: CreatePost },
+    ],
+  },
+  {
+    path: "/admin",
+    component: AdminLayout,
+    children: [],
+  },
+
   { path: "/login", component: Login },
   { path: "/register", component: Register },
   { path: "/reissue", component: Reissue },
-  { path: "/IT", component: IT },
-  { path: "/articleDetails", component: ArticleDetails },
-  { path: "/about", component: About },
-  { path: "/managerPost", component: ManagePost },
-  { path: "/edit", component: Edit },
 ];
 const router = createRouter({
   history: createWebHistory(),

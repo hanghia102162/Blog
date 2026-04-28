@@ -25,7 +25,7 @@
           </router-link>
 
           <router-link
-            to=""
+            to="/createPost"
             class="bg-gradient-to-r from-green-400 to-green-500 text-white px-4 py-2 rounded-lg shadow hover:shadow-md hover:scale-105 transition-all text-sm whitespace-nowrap"
           >
             + Soạn bài mới
