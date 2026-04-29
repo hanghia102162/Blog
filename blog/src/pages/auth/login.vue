@@ -83,4 +83,22 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const email = ref();
+const password = ref();
+
+const handleLogin = async () => {
+  try {
+    const res = await axios.post("http://127.0.0.1:8000", {
+      email: email.value,
+      password: password.value,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>
