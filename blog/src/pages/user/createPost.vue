@@ -5,23 +5,26 @@
         <ion-icon name="pencil-outline"></ion-icon>
         <h2 class="font-medium">Soạn thảo bài viết mới</h2>
       </nav>
-      <div class="w-full flex flex-col gap-3 mt-3">
+      <form
+        @submit.prevent="handelpostPosts()"
+        class="w-full flex flex-col gap-3 mt-3"
+      >
         <input
           type="text"
+          v-model="title"
           placeholder="Tên bài viết"
           class="border p-2 border-gray-400 outline-none focus:ring-2 focus:ring-purple-400"
         />
         <select
-          name=""
-          id=""
+          v-model="category"
           class="border p-2 border-gray-400 outline-none focus:ring-2 focus:ring-purple-400"
         >
-          <option value="">Công nghệ thông tin</option>
-          <option value="">Y tế & Sức khỏe</option>
-          <option value="">Thể thao</option>
-          <option value="">Kỹ năng mềm</option>
-          <option value="">Giáo dục & Đào tạo</option>
-          <option value="">Văn hóa - Nghệ thuật</option>
+          <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+          <option value="Y tế & Sức khỏe">Y tế & Sức khỏe</option>
+          <option value="Thể thao">Thể thao</option>
+          <option value="Kỹ năng mềm">Kỹ năng mềm</option>
+          <option value="Giáo dục & Đào tạo">Giáo dục & Đào tạo</option>
+          <option value="Văn hóa - Nghệ thuật">Văn hóa - Nghệ thuật</option>
         </select>
         <div class="relative inline-block">
           <button
@@ -39,6 +42,7 @@
         <div
           ref="editor"
           contenteditable="true"
+          @input="updateContent"
           class="w-full h-[350px] border p-3 mt-3 overflow-auto"
         ></div>
         <button
@@ -46,11 +50,12 @@
         >
           Đăng bài viết
         </button>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 <script setup>
+import axios, { formToJSON } from "axios";
 import { ref } from "vue";
 
 const editor = ref(null);
@@ -70,5 +75,23 @@ const handleImage = (e) => {
   };
 
   reader.readAsDataURL(file);
+};
+const title = ref("");
+const content = ref("");
+const updateContent = (e) => {
+  content.value = e.target.innerHTML;
+};
+const category = ref("");
+const handelpostPosts = async () => {
+  try {
+    const res = await axios.post("http://127.0.0.1:8000", {
+      title: title.value,
+      content: content.value,
+    });
+
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>

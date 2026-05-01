@@ -12,7 +12,7 @@
           {{ post.Title }}
         </h1></router-link
       >
-      <p class="text-gray-600">{{ post.Meta }}</p>
+      <p class="text-gray-600">{{ post.Slug }}</p>
       <router-link to="/articleDetails">
         <div
           class="w-screen overflow-hidden md:w-[800px] md:h-[350px] h-[250px]"
@@ -28,11 +28,12 @@
         {{ post.Content }}
       </p>
       <div class="flex gap-3">
-        <button
+        <router-link
+          to="/articleDetails"
           class="px-3 py-1 bg-white rounded-lg shadow hover:bg-gray-100 transition"
         >
           Read Mode
-        </button>
+        </router-link>
         <button
           class="flex items-center gap-1 px-3 py-1 bg-white rounded-lg shadow hover:bg-gray-100 transition"
         >
@@ -64,11 +65,14 @@
   </div>
 </template>
 <script setup>
+import axios from "axios";
+import { onMounted } from "vue";
+
 const posts = [
   {
     Title:
       "Và cái chết không thể nào thống trị | And death shall have no dominion – Dylan Thomas",
-    Meta: "Published March 18, 2020 by Rio Lam",
+    Slug: "Published March 18, 2020 by Rio Lam",
     Image: "../../img/1.jpg",
     Content: `/Well, it’s me, again with my fav poet. / Và cái chết không thể nào
         thống trị. Muôn người nằm xuống, loã thể, hoà một thân Nơi đấng trong
@@ -86,4 +90,16 @@ const posts = [
     Content: `Đã thành lệ hằng năm, cứ đến tháng 11 là mình sẽ đem lòng nhớ Tết.`,
   },
 ];
+//đây là phần pots khi trích xuất ra thành công
+const post = [];
+const handelPosts = async () => {
+  try {
+    const res = await axios.get("http://127.0.0.1:8000");
+    post.values = res.data;
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+onMounted(() => handelPosts());
 </script>

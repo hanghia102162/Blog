@@ -23,56 +23,88 @@
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Công nghệ thông tin
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             server-test
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Y tế & Sức khỏe
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Giáo dục & Đào tạo
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Thể thao
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Kinh tế - Tài chính
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Kỹ năng mềm
           </label>
 
           <label
             class="flex items-center gap-2 border px-3 py-1 rounded cursor-pointer"
           >
-            <input type="checkbox" class="accent-purple-500" />
+            <input
+              type="checkbox"
+              class="accent-purple-500"
+              v-model="selectedTopics"
+            />
             Văn hóa - Nghệ thuật
           </label>
         </div>
@@ -88,6 +120,7 @@
           rows="4"
           placeholder="Mình là sinh viên IT, mình muốn chia sẻ kiến thức về lập trình web..."
           class="w-full border rounded p-2 outline-none focus:ring-2 focus:ring-purple-400"
+          v-model="reason"
         ></textarea>
       </div>
 
@@ -100,3 +133,24 @@
     </div>
   </div>
 </template>
+<script setup>
+import axios from "axios";
+import { ref } from "vue";
+
+const selectedTopics = ref([]);
+
+const reason = ref("");
+
+const handlecheckbox = async () => {
+  try {
+    const res = await axios.post("http://127.0.0.1:8000", {
+      topics: selectedTopics.value,
+      reason: reason.value,
+    });
+
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>

@@ -50,18 +50,22 @@
           </thead>
 
           <tbody class="text-gray-700">
-            <tr class="border-t hover:bg-gray-50 transition duration-200">
-              <td class="p-4 font-medium">meotest5</td>
+            <tr
+              v-for="(post, index) in posts"
+              :key="index"
+              class="border-t hover:bg-gray-50 transition duration-200"
+            >
+              <td class="p-4 font-medium">{{ post.title }}</td>
 
               <td class="p-4">
                 <span
                   class="bg-blue-50 text-blue-600 text-xs px-3 py-1 rounded-full font-medium"
                 >
-                  server-test
+                  {{ post.name }}
                 </span>
               </td>
 
-              <td class="p-4 text-gray-400">27/04/2026</td>
+              <td class="p-4 text-gray-400">{{ post.slug }}</td>
 
               <td class="p-4 text-right space-x-4">
                 <router-link
@@ -77,105 +81,158 @@
                 </button>
               </td>
             </tr>
-
-            <tr class="border-t hover:bg-gray-50 transition duration-200">
-              <td class="p-4 font-medium">meotest4</td>
-
-              <td class="p-4">
-                <span
-                  class="bg-purple-50 text-purple-600 text-xs px-3 py-1 rounded-full font-medium"
-                >
-                  server-test
-                </span>
-              </td>
-
-              <td class="p-4 text-gray-400">27/04/2026</td>
-
-              <td class="p-4 text-right space-x-4">
-                <router-link
-                  to="/edit"
-                  class="text-blue-500 hover:text-blue-700 font-medium"
-                >
-                  Sửa
-                </router-link>
-                <button class="text-red-500 hover:text-red-700 font-medium">
-                  Xóa
-                </button>
-              </td>
-            </tr>
-
-            <tr class="border-t hover:bg-gray-50 transition duration-200">
-              <td class="p-4 font-medium">
-                Hướng dẫn sử dụng và Nội quy Hệ thống
-              </td>
-
-              <td class="p-4">
-                <span
-                  class="bg-green-50 text-green-600 text-xs px-3 py-1 rounded-full font-medium"
-                >
-                  Quy định chung
-                </span>
-              </td>
-
-              <td class="p-4 text-gray-400">18/04/2026</td>
-
-              <td class="p-4 text-right space-x-4">
-                <router-link
-                  to="/edit"
-                  class="text-blue-500 hover:text-blue-700 font-medium"
-                >
-                  Sửa
-                </router-link>
-                <button class="text-red-500 hover:text-red-700 font-medium">
-                  Xóa
-                </button>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
-      <div class="md:hidden flex flex-col gap-4">
-        <!-- ITEM -->
-        <div class="border rounded-xl p-4 shadow-sm">
-          <h3 class="font-semibold text-gray-800">meotest5</h3>
+      <div class="md:hidden flex flex-col space-y-4">
+        <div v-for="(post, index) in posts" :key="index">
+          <!-- ITEM -->
+          <div class="border rounded-xl p-4 shadow-sm">
+            <h3 class="font-semibold text-gray-800">{{ post.title }}</h3>
 
-          <div class="flex justify-between items-center mt-2">
-            <span
-              class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full"
-            >
-              server-test
-            </span>
-            <span class="text-gray-400 text-sm">27/04/2026</span>
-          </div>
+            <div class="flex justify-between items-center mt-2">
+              <span
+                class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full"
+              >
+                {{ post.name }}
+              </span>
+              <span class="text-gray-400 text-sm">{{ post.slug }}</span>
+            </div>
 
-          <div class="flex justify-end gap-4 mt-3 text-sm">
-            <router-link to="/edit" class="text-blue-500">Sửa</router-link>
-            <button class="text-red-500">Xóa</button>
-          </div>
-        </div>
-
-        <!-- ITEM -->
-        <div class="border rounded-xl p-4 shadow-sm">
-          <h3 class="font-semibold text-gray-800">
-            Hướng dẫn sử dụng và Nội quy Hệ thống
-          </h3>
-
-          <div class="flex justify-between items-center mt-2">
-            <span
-              class="bg-green-50 text-green-600 text-xs px-2 py-1 rounded-full"
-            >
-              Quy định chung
-            </span>
-            <span class="text-gray-400 text-sm">18/04/2026</span>
-          </div>
-
-          <div class="flex justify-end gap-4 mt-3 text-sm">
-            <router-link to="/edit" class="text-blue-500">Sửa</router-link>
-            <button class="text-red-500">Xóa</button>
+            <div class="flex justify-end gap-4 mt-3 text-sm">
+              <router-link to="/edit" class="text-blue-500">Sửa</router-link>
+              <button class="text-red-500">Xóa</button>
+            </div>
           </div>
         </div>
       </div>
+      <!-- phan trang -->
+      <div class="flex justify-center items-center gap-3 mt-3">
+        <button class="cursor-pointer" @click="handeltru">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+            />
+          </svg>
+        </button>
+        <span>{{ trang }}</span>
+        <button class="cursor-pointer" @click="handelcong">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
-    <!--  -->
+    <!-- phân trang -->
   </div>
 </template>
+<script setup>
+import axios from "axios";
+import { ref } from "vue";
+const posts = [
+  {
+    title: "conmemay",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "địt mẹ mày",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "cút mẹ mày đi",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "conmemay",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "địt mẹ mày",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "cút mẹ mày đi",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "conmemay",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "địt mẹ mày",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "cút mẹ mày đi",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "conmemay",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "địt mẹ mày",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "cút mẹ mày đi",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+  {
+    title: "conmemay",
+    name: "Công nghệ thông tin",
+    slug: "2020/03/17",
+  },
+];
+// api
+// const handelPost = async () => {
+//   try {
+//     const res = await axios.get("http//127.0.0.1:800");
+//     posts.values = res.data;
+//     console.log(posts.data);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+const trang = ref(1);
+
+const handelcong = () => {
+  trang.value++;
+};
+
+const handeltru = () => {
+  trang.value--;
+};
+</script>

@@ -11,7 +11,7 @@
     >
       <form
         action=""
-        @submit.prevent="handleLogin"
+        @submit.prevent="handleRegister"
         class="flex flex-col gap-3 w-[300px] h-[360px] justify-around items-center"
       >
         <h1 class="font-medium text-2xl">Đăng kí với mật khẩu</h1>
@@ -76,7 +76,7 @@
             id="otp2"
             type="text"
             placeholder=" "
-            v-model="password"
+            v-model="confirmPassword"
             class="w-full peer focus:outline-none p-2 shadow"
           />
           <svg
@@ -108,4 +108,23 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const email = ref();
+const password = ref();
+const confirmPassword = ref();
+const handleRegister = async () => {
+  try {
+    const res = await axios.post("http://127.0.0.1:8000", {
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>

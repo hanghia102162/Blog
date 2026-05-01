@@ -20,7 +20,7 @@
             id="otp1"
             type="text"
             placeholder=" "
-            v-model="email"
+            v-model="OTP"
             class="w-full peer p-2 shadow focus:outline-none"
           />
           <svg
@@ -76,7 +76,7 @@
             id="otp2"
             type="text"
             placeholder=" "
-            v-model="password"
+            v-model="confirmPassword"
             class="w-full peer focus:outline-none p-2 shadow"
           />
           <svg
@@ -108,4 +108,23 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+const email = ref();
+const password = ref();
+const OTP = ref();
+const handleRegister = async () => {
+  try {
+    const res = await axios.post("http://127.0.0.1:8000", {
+      confirmPassword: confirmPassword.value,
+      password: password.value,
+      OTP: OTP.value,
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>
