@@ -26,25 +26,15 @@
           <option value="Giáo dục & Đào tạo">Giáo dục & Đào tạo</option>
           <option value="Văn hóa - Nghệ thuật">Văn hóa - Nghệ thuật</option>
         </select>
-        <div class="relative inline-block">
-          <button
-            class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-          >
-            + Chèn ảnh
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            class="absolute inset-0 opacity-0 cursor-pointer"
-            @change="handleImage"
+        <div class="h-[500px]">
+          <QuillEditor
+            v-model:content="content"
+            contentType="html"
+            theme="snow"
+            toolbar="full"
+            class="bg-white h-full"
           />
         </div>
-        <div
-          ref="editor"
-          contenteditable="true"
-          @input="updateContent"
-          class="w-full h-[350px] border p-3 mt-3 overflow-auto"
-        ></div>
         <button
           class="bg-green-600 h-[45px] font-medium text-white cursor-pointer"
         >
@@ -54,28 +44,23 @@
     </div>
   </div>
 </template>
+<style>
+.ql-container {
+  height: calc(100% - 60px);
+}
+.ql-editor img {
+  max-width: 100%;
+  width: 300px;
+  height: auto;
+  object-fit: cover;
+}
+</style>
 <script setup>
 import axios, { formToJSON } from "axios";
 import { ref } from "vue";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-const editor = ref(null);
-const handleImage = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  //   API của JavaScript dùng để đọc file (ảnh, txt, pdf…) chuyển thành dạng có thể dùng trong web:
-  const reader = new FileReader();
-  reader.onload = () => {
-    const img = document.createElement("img");
-    img.src = reader.result;
-    img.style.maxWidth = "50%";
-
-    img.classList.add("my-2");
-
-    editor.value.appendChild(img);
-  };
-
-  reader.readAsDataURL(file);
-};
 const title = ref("");
 const content = ref("");
 const updateContent = (e) => {
