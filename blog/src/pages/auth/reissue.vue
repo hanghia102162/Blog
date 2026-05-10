@@ -11,7 +11,7 @@
     >
       <form
         action=""
-        @submit.prevent="handleLogin"
+        @submit.prevent="handleReissue"
         class="flex flex-col gap-3 w-[300px] h-[360px] justify-around items-center"
       >
         <h1 class="font-medium text-2xl">Đăng nhập với mật khẩu</h1>
@@ -20,7 +20,7 @@
             id="otp1"
             type="text"
             placeholder=" "
-            v-model="OTP"
+            v-model="otp"
             class="w-full peer p-2 shadow focus:outline-none"
           />
           <svg
@@ -103,7 +103,7 @@
         >
           Xác nhận
         </button>
-        <router-link to="/login">Quay lại</router-link>
+        <router-link to="/gmail">Quay lại</router-link>
       </form>
     </div>
   </div>
@@ -111,18 +111,29 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+const Router = useRouter();
 
-const email = ref();
+const confirmPassword = ref();
 const password = ref();
-const OTP = ref();
-const handleRegister = async () => {
+const otp = ref();
+const handleReissue = async () => {
   try {
-    const res = await axios.post("http://127.0.0.1:8000", {
-      confirmPassword: confirmPassword.value,
-      password: password.value,
-      OTP: OTP.value,
-    });
+    const res = await axios.post(
+      "http://localhost/blog/backend/api/reissue.php",
+      {
+        confirmPassword: confirmPassword.value,
+        password: password.value,
+        otp: otp.value,
+      },
+      {
+        withCredentials: true,
+      },
+    );
     console.log(res.data);
+    if (res.data.success) {
+      Router.push("/login");
+    }
   } catch (error) {
     console.log(error);
   }

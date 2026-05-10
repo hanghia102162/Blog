@@ -1,0 +1,137 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+$conn = new mysqli("127.0.0.1", "root", "", "blog_db", 3306);
+
+if ($conn->connect_error) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Database connection failed"
+    ]);
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $result = mysqli_query($conn, "SELECT * FROM users");
+
+    $users = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+
+    echo json_encode([
+        "status" => "success",
+        "data" => $users
+    ]);
+    exit();
+}
+// ====================update password============================
+$data = json_decode(file_get_contents("php://input"), true);
+$action = $data['action'] ?? '';
+if($_SERVER['REQUEST_METHOD'] === "POST" && $action == "changePassword"){
+    global $conn;
+    // $data = json_decode(file_get_contents("php://input"), true);
+
+    $password = $data['password'];
+    $newPassword = $data['newPassword'];
+    $ConfirmNewpassword = $data['ConfirmNewpassword'];
+
+    $headers = getallheaders();
+
+    $token = str_replace("Bearer ", "", $headers['Authorization']);
+    $queryUser = mysqli_query($conn,
+    "select * from users where remember_token = '$token'");
+    $user = mysqli_fetch_assoc($queryUser);
+    if(!$user){
+        echo json_encode([
+            'status'=>false,
+            "message"=>"token ko hop le"
+        ]);
+        exit();
+    }
+    if(!password_verify($password, $user['password'])){
+        echo json_encode([
+            "status" => false,
+            "message" => "mật khẩu cũ không đúng"
+        ]);
+        exit();
+    }
+    if($newPassword!= $ConfirmNewpassword){
+        echo json_encode([
+            "status" => false,
+            "message" => "xác nhận mật khẩu không khớp"
+        ]);
+        exit();
+    
+        }
+    $hashPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+    mysqli_query($conn,
+        "UPDATE users 
+        SET password = '$hashPassword'
+        WHERE id = '{$user['id']}'"
+    );
+    echo json_encode([
+        "status" => true,
+        "message" => "đổi mật khẩu thành công"
+    ]);
+
+}
+// ====================update profile================================
+if ($_SERVER['REQUEST_METHOD'] === "POST" && $action === "updateProfile") {
+    global $conn;
+
+    $headers = getallheaders();
+    $authorization = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+    $token = str_replace("Bearer ", "", $authorization);
+
+    // Lấy user trước
+    $sql = "SELECT * FROM users WHERE remember_token = '$token'";
+    $queryUser = mysqli_query($conn, $sql);
+    $user = mysqli_fetch_assoc($queryUser);
+
+    if (!$user) {
+        echo json_encode([
+            "status" => false,
+            "message" => "token không hợp lệ!"
+        ]);
+        exit();
+    }
+
+    // Nếu không nhập thì giữ nguyên dữ liệu cũ
+    $name = $data['name'] ?? $user['username'];
+    $email = $data['email'] ?? $user['email'];
+    $hostline = $data['hostline'] ?? $user['hostline'];
+
+    $query = mysqli_query($conn, "
+        UPDATE users SET
+            username = '$name',
+            email = '$email',
+            hostline = '$hostline'
+        WHERE id = '{$user['id']}'
+    ");
+
+    if (!$query) {
+        echo json_encode([
+            "status" => false,
+            "message" => mysqli_error($conn)
+        ]);
+        exit();
+    }
+
+    echo json_encode([
+        "status" => true,
+        "message" => "Thay đổi thông tin thành công"
+    ]);
+    exit();
+}
+?>

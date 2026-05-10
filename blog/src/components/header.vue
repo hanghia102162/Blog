@@ -12,7 +12,7 @@
       </div>
 
       <!-- Menu -->
-      <div class="hidden md:flex gap-6 text-white text-sm">
+      <div class="hidden md:flex gap-6 text-white text-sm z-50">
         <router-link
           to="/"
           href="#"
@@ -96,26 +96,30 @@
       <div
         class="hidden md:flex items-center gap-3 text-white text-lg relative"
       >
-        <router-link to="/login">
+        <button @click="handleUserNavigation">
           <ion-icon
             name="person-circle-outline"
             class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
           ></ion-icon>
-        </router-link>
+        </button>
 
-        <router-link to="">
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u=https://clock-store-hu4v.vercel.app/"
+        >
           <ion-icon
             name="logo-facebook"
             class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
           ></ion-icon>
-        </router-link>
+        </a>
 
-        <router-link to="">
+        <a
+          href="https://mail.google.com/mail/?view=https://clock-store-hu4v.vercel.app/"
+        >
           <ion-icon
-            name="logo-google"
+            name="mail"
             class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
           ></ion-icon>
-        </router-link>
+        </a>
         <button class="z-50">
           <ion-icon
             @click="openInputToggle()"
@@ -298,5 +302,19 @@ const openViet = ref(false);
 
 const toggleViet = () => {
   openViet.value = !openViet.value;
+};
+//
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const handleUserNavigation = () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    router.push("/PersonalInformation");
+  } else {
+    router.push("/login");
+  }
 };
 </script>

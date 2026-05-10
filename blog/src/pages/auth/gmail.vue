@@ -13,7 +13,7 @@
     >
       <form
         action=""
-        @submit.prevent="handleLogin"
+        @submit.prevent="handleGmail"
         class="flex flex-col gap-3 w-[300px] h-[360px] justify-around items-center"
       >
         <h1 class="font-medium text-2xl">Đăng nhập với mật khẩu</h1>
@@ -45,40 +45,13 @@
             >Email</label
           >
         </div>
-        <div class="w-full relative">
-          <input
-            id="otp2"
-            type="text"
-            placeholder=" "
-            v-model="password"
-            class="w-full peer focus:outline-none p-2 shadow"
-          />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            class="size-6 absolute top-1/2 -translate-y-1/2 right-0"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          <label
-            for="otp2"
-            class="absolute left-2 top-1/2 -translate-y-1/2 left-0 peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base peer-focus:top-[-10px] transition-all duration-500 ease-linear"
-          >
-            Mật khẩu
-          </label>
-        </div>
         <button
           class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
         >
-          Đăng nhập với mật khẩu
+          Click để nhân OTP
         </button>
         <router-link to="/register">Đăng kí tài khoản</router-link>
-        <router-link to="/gmail">Quên mật khẩu</router-link>
+        <router-link to="/login">Quay lại</router-link>
       </form>
     </div>
   </div>
@@ -87,38 +60,25 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-
 const router = useRouter();
 
 const email = ref("");
-const password = ref("");
 
-const handleLogin = async () => {
+const handleGmail = async () => {
   try {
     const res = await axios.post(
       "http://localhost/blog/backend/api/autherAPI.php",
       {
-        action: "login",
+        action: "email",
         email: email.value,
-        password: password.value,
+      },
+      {
+        withCredentials: true,
       },
     );
-
+    alert("OTP đã gửi về email");
+    router.push("/reissue");
     console.log(res.data);
-
-    if (res.data.success) {
-      // lưu token
-      localStorage.setItem("token", res.data.Token);
-
-      // lưu user
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      alert(res.data.message);
-
-      router.push("/");
-    } else {
-      alert(res.data.message);
-    }
   } catch (error) {
     console.log(error);
   }

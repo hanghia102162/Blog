@@ -111,18 +111,25 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const email = ref();
 const password = ref();
 const confirmPassword = ref();
 const handleRegister = async () => {
   try {
-    const res = await axios.post("http://127.0.0.1:8000", {
-      email: email.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value,
-    });
+    const res = await axios.post(
+      "http://localhost/blog/backend/api/register.php",
+      {
+        email: email.value,
+        password: password.value,
+        confirmPassword: confirmPassword.value,
+      },
+    );
     console.log(res.data);
+    if (res.data.success) {
+      router.push("/login");
+    }
   } catch (error) {
     console.log(error);
   }
