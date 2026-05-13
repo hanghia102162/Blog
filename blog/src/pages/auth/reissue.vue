@@ -113,21 +113,23 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 const Router = useRouter();
-
+const email = ref(localStorage.getItem("email")); // hoặc route/state
 const confirmPassword = ref();
 const password = ref();
 const otp = ref();
 const handleReissue = async () => {
   try {
     const res = await axios.post(
-      "http://localhost/blog/backend/api/reissue.php",
+      "http://localhost/blog/backend/api/autherAPI.php",
       {
+        action: "reissue",
+        email: email.value,
         confirmPassword: confirmPassword.value,
         password: password.value,
         otp: otp.value,
       },
       {
-        withCredentials: true,
+        withCredentials: true, // 👈 QUAN TRỌNG
       },
     );
     console.log(res.data);

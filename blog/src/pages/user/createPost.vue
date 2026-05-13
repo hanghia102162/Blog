@@ -16,17 +16,17 @@
           class="border p-2 border-gray-400 outline-none focus:ring-2 focus:ring-purple-400"
         />
         <select
-          v-model="category"
-          class="border p-2 border-gray-400 outline-none focus:ring-2 focus:ring-purple-400"
+          v-model="category_id"
+          class="border p-2 border-gray-400 outline-none"
         >
-          <option value="Công nghệ thông tin">Công nghệ thông tin</option>
-          <option value="Y tế & Sức khỏe">Y tế & Sức khỏe</option>
-          <option value="Thể thao">Thể thao</option>
-          <option value="Kỹ năng mềm">Kỹ năng mềm</option>
-          <option value="Giáo dục & Đào tạo">Giáo dục & Đào tạo</option>
-          <option value="Văn hóa - Nghệ thuật">Văn hóa - Nghệ thuật</option>
+          <option :value="1">Công nghệ thông tin</option>
+          <option :value="2">Y tế & Sức khỏe</option>
+          <option :value="3">Thể thao</option>
+          <option :value="4">Kỹ năng mềm</option>
+          <option :value="5">Giáo dục & Đào tạo</option>
+          <option :value="6">Văn hóa - Nghệ thuật</option>
         </select>
-        <div class="h-[500px]">
+        <div class="h-[500px] mb-14">
           <QuillEditor
             v-model:content="content"
             contentType="html"
@@ -60,23 +60,43 @@ import axios, { formToJSON } from "axios";
 import { ref } from "vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const title = ref("");
 const content = ref("");
 const updateContent = (e) => {
   content.value = e.target.innerHTML;
 };
-const category = ref("");
+const category_id = ref(1);
 const handelpostPosts = async () => {
   try {
-    const res = await axios.post("http://127.0.0.1:8000", {
-      title: title.value,
-      content: content.value,
-    });
+    const token = localStorage.getItem("token");
 
+    const slug = title.value.toLowerCase().replace(/\s+/g, "-");
+
+    const res = await axios.post(
+      "http://127.0.0.1/blog/backend/api/posts.php",
+      {
+        title: title.value,
+        content: content.value,
+        category_id: category_id.value,
+        slug: slug,
+        status: "published",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    if (res.data.success) {
+      router.push("/managerPost");
+    }
+    console.log(localStorage.getItem("token"));
     console.log(res.data);
   } catch (error) {
-    console.log(error);
+    console.log(error.response?.data);
   }
 };
 </script>

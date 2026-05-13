@@ -22,42 +22,58 @@
         class="min-h-[30%] max-h-[60vh] overflow-auto w-full py-3 shadow-[0_0_10px_rgba(0,0,0,0.5)] mt-[15px] rounded-[5px] flex flex-col gap-3 p-3"
       >
         <h2 class="text-xl font-medium">Đơn tác giả xin chờ duyệt</h2>
-        <table class="w-full border w-full border min-w-[700px]">
+        <table class="w-full min-w-[700px] border table-fixed">
           <thead class="bg-black text-white text-center">
             <tr>
-              <td class="border">Ứng viên</td>
-              <td class="border">Chủ đề mong muốn</td>
-              <td class="border">Lí do đăng kí</td>
-              <td class="border">Thời gian hành động</td>
-              <td class="border">hành động</td>
+              <td class="border p-2">Ứng viên</td>
+              <td class="border p-2">Chủ đề mong muốn</td>
+              <td class="border p-2">Lí do đăng kí</td>
+              <td class="border p-2">Thời gian hành động</td>
+              <td class="border p-2">Hành động</td>
             </tr>
           </thead>
+
           <tbody class="text-center">
             <tr v-for="(item, index) in Author" :key="index">
-              <td class="border">
-                <h2>{{ item.uv }}</h2>
-                <p class="text-gray-400">{{ item.email }}</p>
+              <td
+                class="border p-2 break-words whitespace-normal max-w-[180px]"
+              >
+                <h2 class="font-medium">{{ item.uv }}</h2>
+                <p class="text-gray-400 text-sm">{{ item.email }}</p>
               </td>
-              <td class="border">
-                <p class="bg-yellow-400">{{ item.chude }}</p>
+
+              <td
+                class="border p-2 break-words whitespace-normal max-w-[200px]"
+              >
+                <p class="px-2 py-1 rounded">
+                  {{ item.topics }}
+                </p>
               </td>
-              <td class="border">
-                <p>{{ item.lido }}</p>
+
+              <td
+                class="border p-2 break-words whitespace-normal max-w-[300px]"
+              >
+                <p>{{ item.reason }}</p>
               </td>
-              <td class="border">
-                <p>{{ item.thoigian }}</p>
+              <td class="border p-2 whitespace-normal max-w-[180px]">
+                <p>{{ item.updated_at }}</p>
               </td>
-              <td class="border">
-                <button
-                  class="bg-green-600 hover:bg-green-500 cursor-pointer mx-2 p-1 rounded-[5px] text-white"
-                >
-                  Duyệt
-                </button>
-                <button
-                  class="bg-red-600 hover:bg-red-500 cursor-pointer p-1 rounded-[5px] text-white"
-                >
-                  Từ chối
-                </button>
+              <td class="border p-2">
+                <div class="flex justify-center gap-2">
+                  <button
+                    @click="handelPheDuyet(item.id)"
+                    class="bg-green-600 hover:bg-green-500 cursor-pointer px-3 py-1 rounded text-white"
+                  >
+                    Duyệt
+                  </button>
+
+                  <button
+                    @click="handelTuChoi(item.id)"
+                    class="bg-red-600 hover:bg-red-500 cursor-pointer px-3 py-1 rounded text-white"
+                  >
+                    Từ chối
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -79,22 +95,27 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr>
+            <tr v-for="item in users" :key="item.id">
               <td class="border">
-                <h2>01</h2>
+                <h2>{{ item.id }}</h2>
               </td>
               <td class="border">
-                <p>Hà Trọng Nghĩa</p>
+                <p>{{ item.username }}</p>
               </td>
-              <td class="border"><p>a@gmail.com</p></td>
-              <td class="border"><p>Admin</p></td>
+              <td class="border">
+                <p>{{ item.email }}</p>
+              </td>
+              <td class="border">
+                <p>{{ item.role }}</p>
+              </td>
               <td class="border py-1">
-                <select name="" id="" class="border outline-none mr-3">
-                  <option value="">Admin</option>
-                  <option value="">User</option>
-                  <option value="">Author</option>
+                <select v-model="item.role" class="border outline-none mr-3">
+                  <option value="admin">Admin</option>
+                  <option value="reader">Reader</option>
+                  <option value="author">Author</option>
                 </select>
                 <button
+                  @click="handleUpdateRole(item.id)"
                   class="p-1 bg-blue-600 rounded-[5px] hover:bg-blue-500 cursor-pointer text-white"
                 >
                   Đổi quyền
@@ -138,77 +159,130 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-const Author = [
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-  {
-    uv: "datatech",
-    email: "a@gmail.com",
-    chude: "thethao",
-    lido: "t muon",
-    thoigian: "18/04:17:29",
-  },
-];
+import axios from "axios";
+import { ref, onMounted } from "vue";
+
+const Author = ref([]);
+
+const handelGetPheDuyet = async () => {
+  const token = localStorage.getItem("token"); //
+  try {
+    const res = await axios.get(
+      "http://localhost/blog/backend/api/author_requests.php",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    Author.value = res.data.data.filter((item) => item.status === "pending");
+    console.log(Author.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(() => {
+  handelGetPheDuyet();
+  getAllUsers();
+});
+// =================phê duyệt ===========================
+const handelPheDuyet = async (id) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await axios.put(
+      `http://localhost/blog/backend/api/author_requests.php?id=${id}&action=approve`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (res.data.success) {
+      window.location.reload();
+    }
+    console.log(res.data);
+
+    // await handelGetPheDuyet();
+  } catch (error) {
+    console.log(error);
+  }
+};
+// ========================từ chối=====================
+const handelTuChoi = async (id) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await axios.put(
+      `http://localhost/blog/backend/api/author_requests.php?id=${id}&action=reject`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (res.data.success) {
+      window.location.reload();
+    }
+    console.log(res.data);
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+  }
+};
+// =================hiển thị user=======
+
+const users = ref([]);
+
+const getAllUsers = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await axios.get(
+      "http://localhost/blog/backend/api/userAPI.php?action=getUser",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    users.value = res.data.data;
+    console.log(users.value);
+    console.log("FULL RESPONSE:", res.data);
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+  }
+};
+
+onMounted(() => {
+  getAllUsers();
+});
+// ==============================đổi quyền================================
+const handleUpdateRole = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await axios.put(
+      `http://localhost/blog/backend/api/author_requests.php?id=${id}&action=revokeAuthor`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    console.log(res.data);
+
+    if (res.data.success) {
+      await getAllUsers();
+    }
+  } catch (error) {
+    console.log(error.response?.data || error.message);
+  }
+};
 </script>

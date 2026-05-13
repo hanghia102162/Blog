@@ -1,7 +1,9 @@
 <?php
 require "../vendor/autoload.php";
+require "../config/jwt.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
     class AutherController{
 
         private $model;
@@ -15,37 +17,50 @@ use PHPMailer\PHPMailer\Exception;
         $user = $this->model->findUserByEmail($email);
         if(!$user){
             return [
-                "success" =>"email ko hợp lệ",
-                "status"=>false
+                "message" =>"email ko hợp lệ",
+                "success"=>false
             ];
         }
         if (!password_verify($password, $user['password'])) {
             return [
-                "status" => false,
+                "success" => false,
                 "message" => "Thông tin tài khoản hoặc mật khẩu không đúng!"
             ];
         }
-        $token = bin2hex(random_bytes(32));
-        $this->model->updateToken($user['id'], $token);
+        $payload = [
+            "id" => $user['id'],
+            "email" => $user['email'],
+            "username" => $user['username'],
+            "role" => $user['role'],
+            "iat" => time(), // thời gian tạo
+            "exp" => time() + (60 * 60 * 24) // hết hạn sau 1 ngày
+        ];
 
+        $token = JWT::encode($payload);
+        $this->model->updateToken($user['id'], $token);
         return [
-            "success"=>true,
-            "message"=>"Thành công!",
-            "Token"=>$token,
-            "user" => $user
+            "success" => true,
+            "message" => "Đăng nhập thành công!",
+            "token" => $token,
+            "user" => [
+                "id" => $user['id'],
+                "username" => $user['username'],
+                "email" => $user['email'],
+                "role" => $user['role']
+            ]
         ];
     }
     public function Register($email,$password,$confirmPassword){
         if ($password != $confirmPassword) {
         return [
             "message" =>"xác nhận mật khẩu không khớp!",
-            "status"=>false
+            "susses"=>false
         ];
     }
         $check = $this->model->findUserByEmail($email);
         if ($check){
             return[
-                "status"=>false,
+                "success"=>false,
                 "message"=>"email đã tồn tại !"
             ];
         }
@@ -54,7 +69,7 @@ use PHPMailer\PHPMailer\Exception;
         $created = $this->model->createUser($username, $email, $hash);
         if($created){
             return [
-                "status"=>true,
+                "success"=>true,
                 "message"=>"tạo thanh công tài khoản!"
             ];
         }
@@ -110,16 +125,18 @@ use PHPMailer\PHPMailer\Exception;
         ];
     }
 }
+// ====================================
     public function checkOTP($otpInput,$confirmPassword,$password){
+         session_start(); 
         if($password != $confirmPassword){
             return[
-                "status"=>true,
+                "success"=>false,
                 "message"=>"mật khẩu không khớp!"
             ];
         }
         if(!isset($_SESSION['otp'])){
             return[
-                "status"=> false,
+                "success"=> false,
                 "message"=>"otp bị hết hạn hoặc không xác định!"
             ];
         }
@@ -153,8 +170,5 @@ use PHPMailer\PHPMailer\Exception;
             ];
     }
 }
-
-
-
 
 ?>

@@ -25,6 +25,7 @@
           >
             <input
               type="checkbox"
+              value="Công nghệ thông tin"
               class="accent-purple-500"
               v-model="selectedTopics"
             />
@@ -37,6 +38,7 @@
             <input
               type="checkbox"
               class="accent-purple-500"
+              value="server-test"
               v-model="selectedTopics"
             />
             server-test
@@ -47,6 +49,7 @@
           >
             <input
               type="checkbox"
+              value="Y tế & Sức khỏe"
               class="accent-purple-500"
               v-model="selectedTopics"
             />
@@ -58,6 +61,7 @@
           >
             <input
               type="checkbox"
+              value="Giáo dục & Đào tạo"
               class="accent-purple-500"
               v-model="selectedTopics"
             />
@@ -70,6 +74,7 @@
             <input
               type="checkbox"
               class="accent-purple-500"
+              value="Thể thao"
               v-model="selectedTopics"
             />
             Thể thao
@@ -81,6 +86,7 @@
             <input
               type="checkbox"
               class="accent-purple-500"
+              value="Kinh tế - Tài chính"
               v-model="selectedTopics"
             />
             Kinh tế - Tài chính
@@ -93,6 +99,7 @@
               type="checkbox"
               class="accent-purple-500"
               v-model="selectedTopics"
+              value="Kỹ năng mềm"
             />
             Kỹ năng mềm
           </label>
@@ -104,6 +111,7 @@
               type="checkbox"
               class="accent-purple-500"
               v-model="selectedTopics"
+              value="Văn hóa - Nghệ thuật"
             />
             Văn hóa - Nghệ thuật
           </label>
@@ -126,6 +134,7 @@
 
       <!-- Button -->
       <button
+        @click="handlecheckbox()"
         class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-5 py-2 rounded shadow hover:scale-105 transition"
       >
         Gửi Yêu Cầu Đăng Ký
@@ -143,10 +152,19 @@ const reason = ref("");
 
 const handlecheckbox = async () => {
   try {
-    const res = await axios.post("http://127.0.0.1:8000", {
-      topics: selectedTopics.value,
-      reason: reason.value,
-    });
+    const token = localStorage.getItem("token");
+    const res = await axios.post(
+      "http://localhost/blog/backend/api/author_requests.php",
+      {
+        topics: selectedTopics.value,
+        reason: reason.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     console.log(res.data);
   } catch (error) {

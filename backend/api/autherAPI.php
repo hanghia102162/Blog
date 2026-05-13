@@ -1,5 +1,20 @@
 <?php
-require_once "../config/database.php";
+
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require_once "../config/database1.php";
 require_once "../models/AutherModel.php";
 require_once "../controllers/AutherController.php";
 

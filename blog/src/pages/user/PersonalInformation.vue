@@ -43,25 +43,27 @@
               <span class="text-sm">Thông tin</span>
             </li>
 
-            <li
-              class="p-3 rounded-xl flex items-center gap-3 hover:bg-blue-900/20 text-slate-500 hover:text-slate-300 cursor-pointer transition"
+            <router-link
+              to="/managerPost"
+              class="p-3 rounded-xl flex items-center gap-3 hover:bg-blue-900/20 text-slate-500 hover:text-slate-300 transition"
             >
               <i class="fas fa-file-alt"></i>
               <span class="text-sm">Bài đăng</span>
-            </li>
+            </router-link>
 
-            <li
-              class="p-3 rounded-xl flex items-center gap-3 hover:bg-blue-900/20 text-slate-500 hover:text-slate-300 cursor-pointer transition"
-            >
-              <i class="fas fa-comment"></i>
-              <span class="text-sm">Bình luận</span>
-            </li>
-
-            <li
-              class="p-3 rounded-xl flex items-center gap-3 hover:bg-blue-900/20 text-slate-500 hover:text-slate-300 cursor-pointer transition"
+            <router-link
+              to="/contact"
+              class="p-3 rounded-xl flex items-center gap-3 hover:bg-blue-900/20 text-slate-500 hover:text-slate-300 transition"
             >
               <i class="fas fa-pen-nib"></i>
               <span class="text-sm">Đăng ký tác giả</span>
+            </router-link>
+            <li
+              @click="handleLogout"
+              class="p-3 rounded-xl flex items-center gap-3 hover:bg-red-900/20 text-red-400 hover:text-red-300 cursor-pointer transition"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="text-sm">Đăng xuất</span>
             </li>
           </ul>
         </nav>
@@ -302,6 +304,8 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const name = ref("");
 const email = ref("");
 const hostline = ref("");
@@ -361,7 +365,7 @@ const user = ref(null);
 const handleGetUser = async () => {
   try {
     const res = await axios.get(
-      "http://localhost/blog/backend/api/userAPI.php",
+      "http://localhost/blog/backend/api/userAPI.php?action=test",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -381,4 +385,11 @@ const handleGetUser = async () => {
 onMounted(() => {
   handleGetUser();
 });
+// ===logout===========================
+const handleLogout = () => {
+  localStorage.removeItem("token");
+
+  localStorage.removeItem("user");
+  router.push("/");
+};
 </script>

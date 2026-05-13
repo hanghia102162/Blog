@@ -22,6 +22,7 @@ import ManagePost from "./pages/user/managerPost.vue";
 import Edit from "./pages/user/edit.vue";
 import CreatePost from "./pages/user/createPost.vue";
 import PersonalInformation from "./pages/user/PersonalInformation.vue";
+
 const routes = [
   {
     path: "/",
@@ -30,10 +31,10 @@ const routes = [
       { path: "", component: HelloWorld },
       { path: "contact", component: Contact },
       { path: "IT", component: IT },
-      { path: "articleDetails", component: ArticleDetails },
+      { path: "articleDetails/:id", component: ArticleDetails },
       { path: "about", component: About },
       { path: "managerPost", component: ManagePost },
-      { path: "edit", component: Edit },
+      { path: "edit/:id", component: Edit },
       { path: "createPost", component: CreatePost },
       { path: "PersonalInformation", component: PersonalInformation },
     ],
@@ -56,7 +57,53 @@ const router = createRouter({
     return { top: 0 }; // luôn về đầu trang
   },
 });
+// ============================================
+router.beforeEach((to, from, next) => {
+  const user = JSON.parse(localStorage.getItem("user"));
 
+  const role = user?.role;
+
+  // ===== USER =====
+  // user không được vào các trang này
+  const userBlockRoutes = ["/managerPost", "/createPost"];
+
+  const isEditPage = to.path.startsWith("/edit/");
+
+  if (role === "reader" && (userBlockRoutes.includes(to.path) || isEditPage)) {
+    alert("ko du tham quyen");
+    next(from.fullPath || "/");
+    return;
+  }
+
+  // ===== AUTHOR =====
+  // author không được vào admin
+  if (
+    (role === "author" || role === "reader") &&
+    to.path.startsWith("/admin")
+  ) {
+    alert("ko du tham quyen");
+    next(from.fullPath || "/");
+    return;
+  }
+
+  if (
+    (role === "admin" || role === "author") &&
+    to.path.startsWith("/contact")
+  ) {
+    alert("bạn đã là " + role);
+    next(from.fullPath || "/");
+    return;
+  }
+
+  // ===== CHƯA LOGIN =====
+  if (!user && (userBlockRoutes.includes(to.path) || isEditPage)) {
+    next("/login");
+    return;
+  }
+
+  next();
+});
+// ===================================
 const app = createApp(App);
 app.use(router);
 app.mount("#app");

@@ -119,8 +119,9 @@ const confirmPassword = ref();
 const handleRegister = async () => {
   try {
     const res = await axios.post(
-      "http://localhost/blog/backend/api/register.php",
+      "http://localhost/blog/backend/api/autherAPI.php",
       {
+        action: "register",
         email: email.value,
         password: password.value,
         confirmPassword: confirmPassword.value,

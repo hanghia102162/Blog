@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-500 relative">
+  <div class="bg-blue-500 relative z-100">
     <div
       class="max-w-[1400px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3"
     >
@@ -38,36 +38,13 @@
             <div class="w-[170px] bg-white rounded-xl shadow-lg py-2">
               <ul class="text-black text-sm">
                 <li
+                  v-for="cate in categories"
+                  :key="cate.id"
                   class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
                 >
-                  <router-link to="/IT">Công nghệ thông tin</router-link>
-                </li>
-
-                <li
-                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  Y tế & Sức khỏe
-                </li>
-
-                <li
-                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  Thể thao
-                </li>
-                <li
-                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  Kỹ năng mềm
-                </li>
-                <li
-                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  Giáo dục & Đào tạo
-                </li>
-                <li
-                  class="px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                >
-                  Văn hóa - Nghệ thuật
+                  <router-link :to="`/?category=${cate.slug}`">
+                    {{ cate.name }}
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -165,7 +142,7 @@
               href="#"
               class="block w-full hover:bg-gray-300 border-b border-gray-500 pb-2 text-center"
             >
-              Viet+
+              Category+
             </button>
           </li>
 
@@ -173,12 +150,18 @@
             v-show="openViet"
             class="bg-blue-200 text-sm transition-all duration-300"
           >
-            <li class="py-2 hover:bg-gray-300">Công nghệ thông tin</li>
-            <li class="py-2 hover:bg-gray-300">Y tế & Sức khỏe</li>
-            <li class="py-2 hover:bg-gray-300">Thể thao</li>
-            <li class="py-2 hover:bg-gray-300">Kỹ năng mềm</li>
-            <li class="py-2 hover:bg-gray-300">Giáo dục & Đào tạo</li>
-            <li class="py-2 hover:bg-gray-300">Văn hóa - Nghệ thuật</li>
+            <li
+              v-for="cate in categories"
+              :key="cate.id"
+              class="py-2 hover:bg-gray-300"
+            >
+              <router-link
+                :to="`/?category=${cate.slug}`"
+                @click="opentmodel()"
+              >
+                {{ cate.name }}
+              </router-link>
+            </li>
           </ul>
           <!--  -->
 
@@ -215,6 +198,7 @@
         </ul>
         <div class="flex gap-4 justify-center items-center text-xl text-white">
           <ion-icon
+            @click="handleUserNavigation"
             name="person-circle-outline"
             class="hover:scale-[120%] transition-all hover:translate-y-[-5px] duration-500 hover:shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full cursor-pointer"
           ></ion-icon>
@@ -286,7 +270,7 @@
 }
 </style>
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 const opent = ref(false);
 const opentmodel = () => {
   opent.value = !opent.value;
@@ -305,16 +289,38 @@ const toggleViet = () => {
 };
 //
 import { useRouter } from "vue-router";
+import axios from "axios";
 
 const router = useRouter();
 
 const handleUserNavigation = () => {
   const token = localStorage.getItem("token");
-
+  opent.value = false;
   if (token) {
     router.push("/PersonalInformation");
   } else {
     router.push("/login");
   }
 };
+// =====================================
+
+const categories = ref([]);
+
+const getCategories = async () => {
+  try {
+    const res = await axios.get(
+      "http://localhost/blog/backend/api/categories.php",
+    );
+
+    if (res.data.success) {
+      categories.value = res.data.data;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+onMounted(() => {
+  getCategories();
+});
 </script>

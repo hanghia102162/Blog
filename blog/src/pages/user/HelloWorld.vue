@@ -6,30 +6,39 @@
       class="w-full md:w-[70%] flex flex-col gap-3 justify-center mt-20 items-center"
     >
       <router-link
-        to="/articleDetails"
+        :to="`/articleDetails/${post.id}`"
         class="text-3xl w-auto md:w-[50%] text-center font-bold"
         ><h1 class="w-full">
-          {{ post.Title }}
+          {{ post.title }}
         </h1></router-link
       >
-      <p class="text-gray-600">{{ post.Slug }}</p>
-      <router-link to="/articleDetails">
+      <p class="text-gray-600">
+        {{ "Tác giả: " + post.author + "-" + post.created_at }}
+      </p>
+      <p class="text-gray-600">
+        {{ "Thể loại: " + post.category_slug }}
+      </p>
+      <router-link :to="`/articleDetails/${post.id}`">
         <div
           class="w-screen overflow-hidden md:w-[800px] md:h-[350px] h-[250px]"
         >
           <img
-            src="../../img/1.jpg"
+            :src="getFirstImage(post.content)"
             alt=""
             class="w-full h-full object-cover rounded-lg hover:scale-110 duration-500 transition-all"
           />
         </div>
       </router-link>
       <p class="leading-relaxed text-justify md:w-[50%] w-[90%] p-3">
-        {{ post.Content }}
+        {{
+          post.content
+            ? post.content.replace(/<[^>]*>/g, "").slice(0, 750) + "..."
+            : "No content"
+        }}
       </p>
       <div class="flex gap-3">
         <router-link
-          to="/articleDetails"
+          :to="`/articleDetails/${post.id}`"
           class="px-3 py-1 bg-white rounded-lg shadow hover:bg-gray-100 transition"
         >
           Read Mode
@@ -55,51 +64,99 @@
         </button>
       </div>
     </div>
-    <div class="mt-10 mb-10 flex gap-3">
-      <a href="">1</a>
-      <a href="">2</a>
-      ...
-      <a href="">24</a>
-      <a href="">Next</a>
+    <div class="mt-10 mb-10 flex gap-2 items-center">
+      <button
+        class="px-3 py-1 bg-gray-200 rounded"
+        :disabled="page === 1"
+        @click="page--"
+      >
+        Prev
+      </button>
+
+      <button
+        v-for="p in totalPages"
+        :key="p"
+        @click="page = p"
+        :class="[
+          'px-3 py-1 rounded',
+          page === p ? 'bg-blue-500 text-white' : 'bg-gray-200',
+        ]"
+      >
+        {{ p }}
+      </button>
+
+      <button
+        class="px-3 py-1 bg-gray-200 rounded"
+        :disabled="page === totalPages"
+        @click="page++"
+      >
+        Next
+      </button>
     </div>
   </div>
 </template>
 <script setup>
 import axios from "axios";
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
-const posts = [
-  {
-    Title:
-      "Và cái chết không thể nào thống trị | And death shall have no dominion – Dylan Thomas",
-    Slug: "Published March 18, 2020 by Rio Lam",
-    Image: "../../img/1.jpg",
-    Content: `/Well, it’s me, again with my fav poet. / Và cái chết không thể nào
-        thống trị. Muôn người nằm xuống, loã thể, hoà một thân Nơi đấng trong
-        gió, nơi vầng nguyệt Tây phương Khi xương tàn đã sạch và xương không còn
-        vương, Nơi khuỷu tay và bàn chân có ngàn tinh tú Dẫu điên cuồng, minh
-        triết chẳng hề xa Chìm sâu đáy biển, một mai họ vươn lên Tình nhân không
-        còn nhưng tình yêu vẫn không mòn; Và cái chết không thể nào thống trị. .
-        Và cái chết không thể nào thống trị. Dưới…`,
-  },
+const route = useRoute();
 
-  {
-    Title: "“Nhớ khi nao lúc ra đi…”",
-    Meta: "Published November 12, 2018 by Rio Lam",
-    Image: "../../img/1.jpg",
-    Content: `Đã thành lệ hằng năm, cứ đến tháng 11 là mình sẽ đem lòng nhớ Tết.`,
-  },
-];
-//đây là phần pots khi trích xuất ra thành công
-const post = [];
-const handelPosts = async () => {
+// ================= STATE =================
+const posts = ref([]);
+
+const page = ref(1);
+const perPage = ref(5);
+const totalPages = ref(1);
+
+// ================= API =================
+const handlePosts = async () => {
   try {
-    const res = await axios.get("http://127.0.0.1:8000");
-    post.values = res.data;
-    console.log(res.data);
+    const category = route.query.category;
+
+    const res = await axios.get("http://localhost/blog/backend/api/posts.php", {
+      params: {
+        page: page.value,
+        per_page: perPage.value,
+        category: category || null,
+      },
+    });
+
+    posts.value = res.data.data;
+    totalPages.value = res.data.total_pages || 1;
+
+    console.log("Posts:", posts.value);
   } catch (error) {
     console.log(error);
   }
 };
-onMounted(() => handelPosts());
+
+// ================= IMAGE =================
+const defaultImg = "/img/2.png";
+
+const getFirstImage = (content) => {
+  if (!content) return defaultImg;
+
+  const match = content.match(/<img[^>]+src="([^">]+)"/);
+  return match ? match[1] : defaultImg;
+};
+
+// ================= LẦN ĐẦU LOAD =================
+onMounted(() => {
+  handlePosts();
+});
+
+// ================= WATCH CATEGORY =================
+watch(
+  () => route.query.category,
+  () => {
+    page.value = 1; // reset page khi đổi category
+    handlePosts();
+  },
+);
+
+// ================= WATCH PAGE =================
+watch(page, () => {
+  handlePosts();
+});
 </script>

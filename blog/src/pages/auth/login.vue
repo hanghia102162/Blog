@@ -1,3 +1,4 @@
+n
 <template>
   <div
     class="w-screen h-screen flex flex-col justify-center items-center gap-3"
@@ -108,7 +109,7 @@ const handleLogin = async () => {
 
     if (res.data.success) {
       // lưu token
-      localStorage.setItem("token", res.data.Token);
+      localStorage.setItem("token", res.data.token);
 
       // lưu user
       localStorage.setItem("user", JSON.stringify(res.data.user));
