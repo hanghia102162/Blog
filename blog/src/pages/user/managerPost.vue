@@ -1,11 +1,11 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 py-12">
     <div class="w-[75%] mx-auto bg-white rounded-2xl shadow-lg p-8">
-      <!-- HEADER -->
+      <!-- header -->
       <div
         class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6"
       >
-        <!-- LEFT -->
+        <!-- left -->
         <div>
           <h2 class="text-xl md:text-2xl font-semibold text-gray-800">
             Quản lý bài viết
@@ -15,7 +15,7 @@
           </p>
         </div>
 
-        <!-- RIGHT -->
+        <!-- right -->
         <div class="flex flex-wrap items-center gap-3">
           <router-link
             to="/"
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <!-- TABLE -->
+      <!-- table -->
       <div
         class="hidden md:block overflow-hidden rounded-xl border border-gray-100"
       >
@@ -193,7 +193,6 @@ onMounted(() => {
 watch(trang, () => {
   handelPost();
 });
-// =========================================================
 
 // ================= XÓA BÀI VIẾT =================
 const handelPostDelete = async (id) => {

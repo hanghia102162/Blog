@@ -1,12 +1,10 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex items-center justify-center">
     <div class="w-[600px] bg-white rounded-xl shadow-md p-6">
-      <!-- Back -->
       <router-link to="/" class="text-sm text-purple-600 hover:underline">
         ← Quay lại Trang chủ
       </router-link>
 
-      <!-- Title -->
       <h2 class="text-xl font-semibold mt-3">Đăng Ký Trở Thành Tác Giả ✍️</h2>
 
       <p class="text-gray-500 text-sm mt-1 mb-4">

@@ -54,6 +54,8 @@
   height: auto;
   object-fit: cover;
 }
+/* Đây là CSS để custom giao diện của Vue Quill
+ editor. */
 </style>
 <script setup>
 import axios from "axios";
@@ -69,7 +71,7 @@ const title = ref("");
 const content = ref("");
 const category_id = ref(1);
 
-// ====================== GET DETAIL ======================
+// ====================== lấy dữ cần chỉnh sửa để hiển ======================
 const handalegetPost = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -100,7 +102,7 @@ const handalegetPost = async () => {
   }
 };
 
-// ====================== UPDATE ======================
+// ====================== api gui bản chỉnh sửa lên serve ======================
 const handelpostPosts = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -136,7 +138,7 @@ const handelpostPosts = async () => {
   }
 };
 
-// ====================== MOUNTED ======================
+// ====================== mở ra ngay khi truy cập trang đấy mà =} ======================
 onMounted(() => {
   handalegetPost();
 });

@@ -59,17 +59,25 @@
         <nav
           class="hover:text-blue-500 hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
         >
-          <ion-icon name="logo-facebook" class="text-[20px]"></ion-icon>
+          <a
+            href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:5173/articleDetails/1"
+            ><ion-icon name="logo-facebook" class="text-[20px]"></ion-icon
+          ></a>
         </nav>
         <nav
           class="hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
         >
-          <ion-icon name="logo-tiktok" class="text-[20px]"></ion-icon>
+          <a href="https://www.tiktok.com/share/video/123456789">
+            <ion-icon name="logo-tiktok" class="text-[20px]"></ion-icon>
+          </a>
         </nav>
         <nav
           class="hover:text-red-500 hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
         >
-          <ion-icon name="logo-youtube" class="text-[20px]"></ion-icon>
+          <a
+            href="https://www.youtube.com/share?url=http://localhost:5173/articleDetails/1"
+            ><ion-icon name="logo-youtube" class="text-[20px]"></ion-icon
+          ></a>
         </nav>
       </div>
     </div>
@@ -81,7 +89,6 @@
         :key="index"
         class="my-5 flex flex-col gap-2"
       >
-        <!-- USER INFO -->
         <div class="flex gap-3 items-center">
           <div
             class="w-[45px] h-[45px] rounded-full overflow-hidden bg-gray-200"
@@ -96,19 +103,16 @@
           </div>
 
           <div class="flex flex-col">
-            <!-- NAME -->
             <p class="font-medium text-sm">
               {{ comment.author }}
             </p>
 
-            <!-- TIME -->
             <p class="text-xs text-gray-500">
               {{ comment.created_at }}
             </p>
           </div>
         </div>
 
-        <!-- COMMENT CONTENT -->
         <p class="ml-[58px] text-gray-700">
           {{ comment.content }}
         </p>
@@ -131,7 +135,8 @@
 .blog-content :deep(b) {
   font-weight: 700;
 }
-
+/* :deep la dùng để style các phần tử đc render từ v-html
+@media sao lam cho giao diẹn thay đổi theo màn hình */
 .blog-content :deep(h1),
 .blog-content :deep(h2),
 .blog-content :deep(h3) {

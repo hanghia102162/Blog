@@ -1,10 +1,15 @@
 <?php
 
 header("Access-Control-Allow-Origin: http://localhost:5173");
+// cho phép frontend từ domain này truy cập API
 header("Access-Control-Allow-Credentials: true");
+// cho phép gửi cookie / session
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+// cho phép các HTTP method:
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+// cho phép frontend gửi các header
 header("Content-Type: application/json");
+// server trả dữ liệu dạng JSON
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);

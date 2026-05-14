@@ -74,6 +74,7 @@ const handleGmail = async () => {
       },
       {
         withCredentials: true,
+        // sảy ra khi gửi kèm session
       },
     );
     alert("OTP đã gửi về email");

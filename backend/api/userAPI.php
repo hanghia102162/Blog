@@ -22,6 +22,8 @@ if (!$user) {
 }
 
 // ==============lấy thông tin của user=====
+// $headers = getallheaders();
+// $token = str_replace("Bearer ", "", $headers['Authorization'] ?? '');
 if ($method === 'GET' && $action =="test") {
 
     $headers = getallheaders();

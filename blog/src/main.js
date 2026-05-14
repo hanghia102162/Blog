@@ -15,7 +15,6 @@ import Login from "./pages/auth/login.vue";
 import Register from "./pages/auth/register.vue";
 import Reissue from "./pages/auth/reissue.vue";
 import Gmail from "./pages/auth/gmail.vue";
-import IT from "./pages/user/IT.vue";
 import ArticleDetails from "./pages/user/articleDetails.vue";
 import About from "./pages/user/about.vue";
 import ManagePost from "./pages/user/managerPost.vue";
@@ -30,7 +29,6 @@ const routes = [
     children: [
       { path: "", component: HelloWorld },
       { path: "contact", component: Contact },
-      { path: "IT", component: IT },
       { path: "articleDetails/:id", component: ArticleDetails },
       { path: "about", component: About },
       { path: "managerPost", component: ManagePost },
@@ -95,7 +93,7 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  // ===== CHƯA LOGIN =====
+  // ===== xem login chua ????? =====
   if (!user && (userBlockRoutes.includes(to.path) || isEditPage)) {
     next("/login");
     return;

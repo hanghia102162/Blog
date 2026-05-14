@@ -102,14 +102,14 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-// ================= STATE =================
+// ================= phân trang  =================
 const posts = ref([]);
 
 const page = ref(1);
 const perPage = ref(5);
 const totalPages = ref(1);
 
-// ================= API =================
+// ================= hàm lấy dữ liệu hiển thị =================
 const handlePosts = async () => {
   try {
     const category = route.query.category;
@@ -131,7 +131,7 @@ const handlePosts = async () => {
   }
 };
 
-// ================= IMAGE =================
+// ================= ảnh =================
 const defaultImg = "/img/2.png";
 
 const getFirstImage = (content) => {
@@ -141,7 +141,6 @@ const getFirstImage = (content) => {
   return match ? match[1] : defaultImg;
 };
 
-// ================= LẦN ĐẦU LOAD =================
 onMounted(() => {
   handlePosts();
 });
@@ -154,8 +153,7 @@ watch(
     handlePosts();
   },
 );
-
-// ================= WATCH PAGE =================
+// theo dõi sự kiện khi category thay đổi thì watch chạy
 watch(page, () => {
   handlePosts();
 });

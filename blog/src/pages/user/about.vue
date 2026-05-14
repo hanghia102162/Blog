@@ -7,7 +7,7 @@
             class="w-[300px] h-[300px] md:w-[400px] md:h-[400px] transition-all duration-500 hover:shadow-[0_0_15px_rgba(255,215,0,0.6)] lg:h-[500px] lg:w-[500px] rounded-full overflow-hidden bg-red-300"
           >
             <img
-              src="../../img/1.jpg"
+              src="/img/z7822703927402_3ebcb0a0f2c4a020fae63180ba97a6e9.jpg"
               alt=""
               class="w-full h-full rounded-full object-center hover:scale-110 transition-all duration-500"
             />
@@ -34,17 +34,23 @@
             <nav
               class="hover:text-blue-500 hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
             >
-              <ion-icon name="logo-facebook" class="text-[25px]"></ion-icon>
+              <a href="https://www.facebook.com/HTN.Dev34?locale=vi_VN"
+                ><ion-icon name="logo-facebook" class="text-[25px]"></ion-icon
+              ></a>
             </nav>
             <nav
               class="hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
             >
-              <ion-icon name="logo-tiktok" class="text-[25px]"></ion-icon>
+              <a href="https://www.tiktok.com/@mewmew17105"
+                ><ion-icon name="logo-tiktok" class="text-[25px]"></ion-icon
+              ></a>
             </nav>
             <nav
               class="hover:text-red-500 hover:scale-110 hover:translate-y-[-5px] transition-all duration-500"
             >
-              <ion-icon name="logo-youtube" class="text-[25px]"></ion-icon>
+              <a href=""
+                ><ion-icon name="logo-youtube" class="text-[25px]"></ion-icon
+              ></a>
             </nav>
           </div>
           <button
