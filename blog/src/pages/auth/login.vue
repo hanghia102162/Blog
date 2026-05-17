@@ -3,6 +3,7 @@ n
   <div
     class="w-screen h-screen flex flex-col justify-center items-center gap-3"
   >
+    <Loading v-if="loading" />
     <h1 class="text-blue-500 text-5xl md:text-6xl font-medium">Blog</h1>
     <h2 class="font-normal text-2xl md:text-4xl">
       Đăng nhập với tài khoản BLog
@@ -10,14 +11,29 @@ n
 
     <h2 class="font-normal text-2xl md:text-4xl">để kết nối dứng dụng Blog</h2>
     <div
-      class="bg-white p-4 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
+      class="bg-white p-3 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
     >
       <form
         action=""
         @submit.prevent="handleLogin"
-        class="flex flex-col gap-3 w-[300px] h-[360px] justify-around items-center"
+        class="flex flex-col relative gap-4 w-[300px] h-[400px] justify-around items-center"
       >
         <h1 class="font-medium text-2xl">Đăng nhập với mật khẩu</h1>
+        <!-- làm mấy cái đinh  -->
+        <div class="w-6 h-6 rounded-full absolute left-[-10px] top-[-10px]">
+          <img
+            src="/img/istockphoto-1311197649-612x612.jpg"
+            alt=""
+            class="w-full h-full rounded-full object-center"
+          />
+        </div>
+        <div class="w-6 h-6 rounded-full absolute right-[-10px] top-[-10px]">
+          <img
+            src="/img/istockphoto-1311197649-612x612.jpg"
+            alt=""
+            class="w-full h-full rounded-full object-center"
+          />
+        </div>
         <div class="w-full relative">
           <input
             id="otp1"
@@ -25,6 +41,7 @@ n
             placeholder=" "
             v-model="email"
             class="w-full peer p-2 shadow focus:outline-none"
+            required
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,6 +62,12 @@ n
             class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
             >Email</label
           >
+          <p
+            v-if="errors.email"
+            class="left-2 mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ errors.email }}
+          </p>
         </div>
         <div class="w-full relative">
           <input
@@ -53,6 +76,7 @@ n
             placeholder=" "
             v-model="password"
             class="w-full peer focus:outline-none p-2 shadow"
+            required
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,14 +96,24 @@ n
           >
             Mật khẩu
           </label>
+          <p
+            v-if="errors.password || errors.none"
+            class="mt-1 left-2 absolute transition-all duration-100 text-red-500 text-sm flex items-center gap-1 animate-pulse"
+          >
+            {{ errors.password || errors.none }}
+          </p>
         </div>
-        <button
-          class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
+        <div
+          class="relative flex w-full flex-col gap-3 justify-around items-center pt-6"
         >
-          Đăng nhập với mật khẩu
-        </button>
-        <router-link to="/register">Đăng kí tài khoản</router-link>
-        <router-link to="/gmail">Quên mật khẩu</router-link>
+          <button
+            class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
+          >
+            Đăng nhập với mật khẩu
+          </button>
+          <router-link to="/register">Đăng kí tài khoản</router-link>
+          <router-link to="/gmail">Quên mật khẩu</router-link>
+        </div>
       </form>
     </div>
   </div>
@@ -88,14 +122,23 @@ n
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-
+import Loading from "../../components/load.vue";
+const loading = ref(false);
+const errors = ref({
+  email: "",
+  password: "",
+  none: "",
+});
 const router = useRouter();
-
 const email = ref("");
 const password = ref("");
-
+const message = ref("");
 const handleLogin = async () => {
+  errors.value.email = "";
+  errors.value.password = "";
+  errors.value.none = "";
   try {
+    loading.value = true;
     const res = await axios.post(
       "http://localhost/blog/backend/api/autherAPI.php",
       {
@@ -114,14 +157,16 @@ const handleLogin = async () => {
       // lưu user
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      alert(res.data.message);
-
       router.push("/");
     } else {
-      alert(res.data.message);
+      errors.value.email = res.data.errors?.email || "";
+      errors.value.password = res.data.errors?.password || "";
+      errors.value.none = res.data.errors?.none || "";
     }
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 </script>

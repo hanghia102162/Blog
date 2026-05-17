@@ -42,6 +42,12 @@
             class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
             >OTP</label
           >
+          <p
+            v-if="errors.otp"
+            class="right-0 top-[-25px] mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ errors.otp }}
+          </p>
         </div>
         <div class="w-full relative">
           <input
@@ -69,6 +75,12 @@
           >
             Mật khẩu mới
           </label>
+          <p
+            v-if="errors.password"
+            class="right-0 top-[-25px] mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ errors.password }}
+          </p>
         </div>
 
         <div class="w-full relative">
@@ -97,6 +109,18 @@
           >
             Xác nhận mật khẩu mới
           </label>
+          <p
+            v-if="errors.confirmPassword"
+            class="right-0 top-[-25px] mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ errors.confirmPassword }}
+          </p>
+          <p
+            v-if="errors.none"
+            class="mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ errors.none }}
+          </p>
         </div>
         <button
           class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
@@ -117,6 +141,12 @@ const email = ref(localStorage.getItem("email")); // hoặc route/state
 const confirmPassword = ref();
 const password = ref();
 const otp = ref();
+const errors = ref({
+  confirmPassword: "",
+  password: "",
+  otp: "",
+  none: "",
+});
 const handleReissue = async () => {
   try {
     const res = await axios.post(
@@ -135,6 +165,15 @@ const handleReissue = async () => {
     console.log(res.data);
     if (res.data.success) {
       Router.push("/login");
+    } else {
+      if (res.data.errors) {
+        errors.value = {
+          otp: res.data.errors.otp || "",
+          password: res.data.errors.password || "",
+          confirmPassword: res.data.errors.confirmPassword || "",
+          none: res.data.errors.none || "",
+        };
+      }
     }
   } catch (error) {
     console.log(error);

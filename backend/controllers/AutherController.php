@@ -15,16 +15,30 @@ use PHPMailer\PHPMailer\Exception;
         
     public function login($email,$password){
         $user = $this->model->findUserByEmail($email);
+        $errors = [];
+
         if(!$user){
+        $errors['email'] = "Chưa có tài khoản mang địa chỉ này";
+        }
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $errors['email'] = "Email không họp lệ ";
+        }
+        if(strlen($password) < 6){
+            $errors['password'] = "Mật khẩu phải có ít nhất 6 ký tự";
+        }
+
+        if(!empty($errors)){
             return [
-                "message" =>"email ko hợp lệ",
-                "success"=>false
-            ];
+            "success" => false,
+            "errors" => $errors
+        ];
         }
         if (!password_verify($password, $user['password'])) {
             return [
                 "success" => false,
-                "message" => "Thông tin tài khoản hoặc mật khẩu không đúng!"
+                "errors" => [
+                "none" => "Thông tin tài khoản mật khẩu không chính xác!"
+            ]
             ];
         }
         $payload = [
@@ -51,19 +65,42 @@ use PHPMailer\PHPMailer\Exception;
         ];
     }
     public function Register($email,$password,$confirmPassword){
-        if ($password != $confirmPassword) {
-        return [
-            "message" =>"xác nhận mật khẩu không khớp!",
-            "susses"=>false
-        ];
-    }
+        $errors = [];
+
+        if (strlen($password) < 6) {
+            $errors['password'] = "ít nhất 6 ký tự";   
+        }
+
+        if (strlen($confirmPassword) < 6) {
+            $errors['confirmPassword'] = "ít nhất 6 ký tự";
+        }
+
+        if ($password !== $confirmPassword) {
+            $errors['none'] = "Xác nhận mật khẩu không khớp";
+        }
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $errors['email'] = "Email không họp lệ ";
+        }
         $check = $this->model->findUserByEmail($email);
         if ($check){
-            return[
-                "success"=>false,
-                "message"=>"email đã tồn tại !"
-            ];
+            $errors['email'] = "Email đã tồn tại ";
         }
+        if (!empty($errors)) {
+            return [
+            "success" => false,
+            "errors" => $errors
+        ];
+        }
+        
+        // if (!preg_match('/[\W]/', $password)) {
+        //     return [
+        //         "success" => false,
+        //         "message" => "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt"
+        //     ];
+        // }
+        // ======
+
         $hash = password_hash($password,PASSWORD_DEFAULT);
         $username = explode("@", $email)[0];
         $created = $this->model->createUser($username, $email, $hash);
@@ -77,6 +114,12 @@ use PHPMailer\PHPMailer\Exception;
 
     public function sendOtp($email){
         $check = $this->model->findUserByEmail($email);
+        if(!$check){
+            return [
+             "message" => "Email không hợp lệ",
+             'success'=> false
+            ];
+        }
         if ($check) {
         $otp = rand(100000, 999999);
 
@@ -127,19 +170,36 @@ use PHPMailer\PHPMailer\Exception;
 }
 // ====================================
     public function checkOTP($otpInput,$confirmPassword,$password){
-         session_start(); 
-        if($password != $confirmPassword){
-            return[
-                "success"=>false,
-                "message"=>"mật khẩu không khớp!"
-            ];
+        session_start(); 
+        $errors = [];
+
+        if (strlen($password) < 6) {
+            $errors['password'] = "ít nhất 6 ký tự";   
         }
-        if(!isset($_SESSION['otp'])){
-            return[
-                "success"=> false,
-                "message"=>"otp bị hết hạn hoặc không xác định!"
-            ];
+
+        if (strlen($confirmPassword) < 6) {
+            $errors['confirmPassword'] = "ít nhất 6 ký tự";
         }
+
+        if ($password !== $confirmPassword) {
+            $errors['none'] = "Xác nhận mật khẩu không khớp";
+        }
+
+        if (!isset($_SESSION['otp'])) {
+            $errors['otp'] = "OTP hết hạn hoặc không tồn tại";
+        }
+
+        if (isset($_SESSION['otp']) && $_SESSION['otp'] != $otpInput) {
+            $errors['otp'] = "OTP sai!";
+        }
+
+        if (!empty($errors)) {
+            return [
+            "success" => false,
+            "errors" => $errors
+        ];
+        }
+
         if (time() - $_SESSION['otp_time'] > 300) {
 
             unset($_SESSION['otp']);

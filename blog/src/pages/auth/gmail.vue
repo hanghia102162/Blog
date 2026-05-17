@@ -1,7 +1,8 @@
 <template>
   <div
-    class="w-screen h-screen flex flex-col justify-center items-center gap-3"
+    class="w-screen relative h-screen flex flex-col justify-center items-center gap-3"
   >
+    <Loading v-if="loading" />
     <h1 class="text-blue-500 text-5xl md:text-6xl font-medium">Blog</h1>
     <h2 class="font-normal text-2xl md:text-4xl">
       Đăng nhập với tài khoản BLog
@@ -9,7 +10,7 @@
 
     <h2 class="font-normal text-2xl md:text-4xl">để kết nối dứng dụng Blog</h2>
     <div
-      class="bg-white p-4 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
+      class="relative bg-white p-4 rounded-xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.2)] p-3"
     >
       <form
         action=""
@@ -44,6 +45,12 @@
             class="absolute left-2 top-1/2 -translate-y-1/2 peer-focus:top-[-10px] peer-not-placeholder-shown:top-[-10px] peer-not-placeholder-shown:text-base transition-all duration-500 ease-linear peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base"
             >Email</label
           >
+          <p
+            v-if="message"
+            class="left-2 mt-1 absolute text-red-500 text-sm flex items-center gap-1 transition-all duration-100 animate-pulse"
+          >
+            {{ message }}
+          </p>
         </div>
         <button
           class="w-full h-[45px] rounded-xl bg-blue-400 text-white cursor-pointer hover:bg-blue-500"
@@ -60,11 +67,17 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Loading from "../../components/load.vue";
+const loading = ref(false);
+
 const router = useRouter();
 
 const email = ref("");
+const message = ref("");
 
 const handleGmail = async () => {
+  loading.value = true;
+
   try {
     const res = await axios.post(
       "http://localhost/blog/backend/api/autherAPI.php",
@@ -77,11 +90,16 @@ const handleGmail = async () => {
         // sảy ra khi gửi kèm session
       },
     );
-    alert("OTP đã gửi về email");
-    router.push("/reissue");
-    console.log(res.data);
+    if (res.data.success) {
+      router.push("/reissue");
+      console.log(res.data);
+    } else {
+      message.value = res.data.message;
+    }
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 </script>

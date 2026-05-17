@@ -97,6 +97,7 @@ const handelpostPosts = async () => {
     console.log(res.data);
   } catch (error) {
     console.log(error.response?.data);
+    alert(error.response?.data?.message || "Thiếu dữ liệu / lỗi server");
   }
 };
 </script>

@@ -99,6 +99,7 @@
 import axios from "axios";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { nextTick } from "vue";
 
 const route = useRoute();
 
@@ -113,18 +114,20 @@ const totalPages = ref(1);
 const handlePosts = async () => {
   try {
     const category = route.query.category;
-
+    const search = route.query.q;
     const res = await axios.get("http://localhost/blog/backend/api/posts.php", {
       params: {
         page: page.value,
         per_page: perPage.value,
         category: category || null,
+        search: search || null,
       },
     });
 
     posts.value = res.data.data;
     totalPages.value = res.data.total_pages || 1;
 
+    console.log("SEARCH:", search);
     console.log("Posts:", posts.value);
   } catch (error) {
     console.log(error);
@@ -147,14 +150,14 @@ onMounted(() => {
 
 // ================= WATCH CATEGORY =================
 watch(
-  () => route.query.category,
-  () => {
-    page.value = 1; // reset page khi đổi category
-    handlePosts();
+  () => [route.query.category, route.query.q, page.value],
+  async () => {
+    await handlePosts();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   },
 );
-// theo dõi sự kiện khi category thay đổi thì watch chạy
-watch(page, () => {
-  handlePosts();
-});
 </script>

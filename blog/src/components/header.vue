@@ -109,6 +109,8 @@
             type="text"
             class="border right-0 absolute bg-blue-500 z-49 -translate-y-1/9 focus:outline-none"
             v-if="openInput"
+            v-model="keyword"
+            @keyup.enter="handleSearch"
           />
         </transition>
       </div>
@@ -271,6 +273,7 @@
 </style>
 <script setup>
 import { onMounted, ref } from "vue";
+import { watch } from "vue";
 const opent = ref(false);
 const opentmodel = () => {
   opent.value = !opent.value;
@@ -322,5 +325,21 @@ const getCategories = async () => {
 
 onMounted(() => {
   getCategories();
+});
+// ============================search
+// ======readtime search====
+const keyword = ref("");
+let timer = null;
+watch(keyword, (val) => {
+  clearTimeout(timer);
+
+  timer = setTimeout(() => {
+    const query = val.trim();
+
+    router.push({
+      path: "/",
+      query: query ? { q: query } : {},
+    });
+  }, 400); // 0.4s delay
 });
 </script>

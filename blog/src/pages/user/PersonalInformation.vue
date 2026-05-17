@@ -373,6 +373,7 @@ const handleGetUser = async () => {
       },
     );
     user.value = res.data.data;
+    user.value.hostline = "0" + user.value.hostline;
     console.log(localStorage.getItem("token"));
     console.log("aaa");
     console.log(user.value);
@@ -390,6 +391,6 @@ const handleLogout = () => {
   localStorage.removeItem("token");
 
   localStorage.removeItem("user");
-  router.push("/");
+  router.push("/login");
 };
 </script>

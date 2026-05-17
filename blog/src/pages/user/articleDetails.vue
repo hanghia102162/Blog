@@ -42,7 +42,7 @@
         <label
           for="email"
           class="absolute top-1/2 peer-not-placeholder-shown:top-[-10px] -translate-y-1/2 peer-placeholder-shown:top-1/2 left-1 transition-all duration-500 peer-focus:top-[-10px]"
-          >Email</label
+          >Comment</label
         >
       </div>
       <button

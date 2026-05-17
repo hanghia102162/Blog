@@ -143,6 +143,8 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const route = useRouter();
 
 const selectedTopics = ref([]);
 
@@ -163,10 +165,15 @@ const handlecheckbox = async () => {
         },
       },
     );
+    if (res.data.success) {
+      alert(res.data.message);
+      route.push("/test");
+    }
 
     console.log(res.data);
   } catch (error) {
     console.log(error);
   }
 };
+// ========kiểm tra xem user gửi yêu cầu===
 </script>

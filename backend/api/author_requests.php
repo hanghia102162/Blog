@@ -168,7 +168,9 @@ if ($method === 'PUT') {
         //     echo json_encode(['success' => false, 'message' => 'Vui lòng điền lý do từ chối vào admin_note']);
         //     exit;
         // }
-        $ok = $authorRequest->reject($id, $adminNote);
+        
+        // $ok = $authorRequest->reject($id, $adminNote);
+        $ok = $authorRequest->delete($id);
         echo json_encode([
             'success' => $ok,
             'message' => $ok ? 'Đã từ chối yêu cầu' : 'Không tìm thấy yêu cầu',

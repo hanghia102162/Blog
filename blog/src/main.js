@@ -21,6 +21,7 @@ import ManagePost from "./pages/user/managerPost.vue";
 import Edit from "./pages/user/edit.vue";
 import CreatePost from "./pages/user/createPost.vue";
 import PersonalInformation from "./pages/user/PersonalInformation.vue";
+import Test from "./pages/user/test.vue";
 
 const routes = [
   {
@@ -35,6 +36,7 @@ const routes = [
       { path: "edit/:id", component: Edit },
       { path: "createPost", component: CreatePost },
       { path: "PersonalInformation", component: PersonalInformation },
+      { path: "test", component: Test },
     ],
   },
   {
@@ -93,12 +95,20 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
+  if (
+    !["reader", "author", "admin"].includes(role) &&
+    to.path.startsWith("/contact")
+  ) {
+    alert("Bạn chưa đăng nhập");
+    next("/login");
+    return;
+  }
+
   // ===== xem login chua ????? =====
   if (!user && (userBlockRoutes.includes(to.path) || isEditPage)) {
     next("/login");
     return;
   }
-
   next();
 });
 // ===================================
