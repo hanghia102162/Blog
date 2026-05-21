@@ -172,8 +172,9 @@ const handlecheckbox = async () => {
 
     console.log(res.data);
   } catch (error) {
+    alert("bạn đã đăng kí rồi!");
+    route.push("/test");
     console.log(error);
   }
 };
-// ========kiểm tra xem user gửi yêu cầu===
 </script>

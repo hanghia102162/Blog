@@ -270,7 +270,7 @@ class Post {
 
         $stmt = $this->pdo->prepare("
             SELECT
-                p.id, p.title, p.slug, p.excerpt,
+                p.id, p.title,p.content, p.slug, p.excerpt,
                 p.thumbnail, p.views, p.published_at,
                 c.name AS category_name, c.slug AS category_slug,
                 u.username AS author,

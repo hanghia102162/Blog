@@ -45,6 +45,7 @@
               <th class="p-4 text-left">Tên bài viết</th>
               <th class="p-4 text-left">Chuyên mục</th>
               <th class="p-4 text-left">Ngày đăng</th>
+              <th class="p-4 text-left">Tác giả</th>
               <th class="p-4 text-right">Thao tác</th>
             </tr>
           </thead>
@@ -68,6 +69,9 @@
 
               <td class="p-4 text-gray-400">
                 {{ post.created_at }}
+              </td>
+              <td class="p-4 text-gray-400">
+                {{ post.author }}
               </td>
 
               <td class="p-4 text-right space-x-4">

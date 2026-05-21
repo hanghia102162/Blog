@@ -16,6 +16,12 @@
           <a href="" class="hover:text-yellow-500">Phê duyệt</a>
           <a href="" class="hover:text-yellow-500">Phân quyền</a>
           <a href="" class="hover:text-yellow-500">Nhật kí hoạt động</a>
+          <button
+            @click="exportPDF"
+            class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition-all duration-300"
+          >
+            Xuất PDF
+          </button>
         </div>
       </div>
       <div
@@ -95,7 +101,7 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr v-for="item in users" :key="item.id">
+            <tr v-for="item in users" :key="item.id" class="">
               <td class="border">
                 <h2>{{ item.id }}</h2>
               </td>
@@ -285,4 +291,47 @@ const handleUpdateRole = async (id) => {
     console.log(error.response?.data || error.message);
   }
 };
+// ====================xuat file======================
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+const exportPDF = () => {
+  const doc = new jsPDF();
+
+  const today = new Date().toLocaleString();
+
+  doc.setFontSize(16);
+  doc.text("ADMIN REPORT SYSTEM", 14, 15);
+
+  doc.setFontSize(10);
+  doc.text(`Export: ${today}`, 14, 22);
+
+  // 1. AUTHOR REQUESTS
+
+  autoTable(doc, {
+    startY: 30,
+    head: [["Ứng viên", "Email", "Topics", "Reason"]],
+    body: Author.value.map((a) => [a.uv, a.email, a.topics, a.reason]),
+  });
+
+  // 2. USERS ROLES
+
+  autoTable(doc, {
+    startY: doc.lastAutoTable.finalY + 10,
+    head: [["ID", "Username", "Email", "Role"]],
+    body: users.value.map((u) => [u.id, u.username, u.email, u.role]),
+  });
+
+  // 3. LOGS (cứng)
+
+  autoTable(doc, {
+    startY: doc.lastAutoTable.finalY + 10,
+    head: [["Time", "User", "Action", "Detail", "IP"]],
+    body: [["2026-04-29", "Admin", "Login", "Login system", "1.1.1.255"]],
+  });
+
+  doc.save("admin-report.pdf");
+};
 </script>
+
+// odd:bg-... → áp dụng cho hàng lẻ odd:bg-gray-800 // even:bg-... → áp dụng cho
+hàng chẵn
