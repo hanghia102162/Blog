@@ -30,7 +30,7 @@
         <h2 class="text-xl font-medium">Đơn tác giả xin chờ duyệt</h2>
         <table class="w-full min-w-[700px] border table-fixed">
           <thead class="bg-black text-white text-center">
-            <tr>
+            <tr class="">
               <td class="border p-2">Ứng viên</td>
               <td class="border p-2">Chủ đề mong muốn</td>
               <td class="border p-2">Lí do đăng kí</td>
@@ -89,7 +89,10 @@
       <div
         class="min-h-[30%] overflow-auto w-full py-3 shadow-[0_0_10px_rgba(0,0,0,0.5)] mt-[15px] rounded-[5px] flex flex-col gap-3 p-3"
       >
-        <h2 class="text-xl font-medium">Quản lí phân quyền (Roles)</h2>
+        <div class="flex justify-between">
+          <h2 class="text-xl font-medium">Quản lí phân quyền (Roles)</h2>
+          <p class="text-red-500 font-medium">{{ message }}</p>
+        </div>
         <table class="w-full border w-full border min-w-[700px]">
           <thead class="bg-black text-white text-center">
             <tr>
@@ -125,6 +128,13 @@
                   class="p-1 bg-blue-600 rounded-[5px] hover:bg-blue-500 cursor-pointer text-white"
                 >
                   Đổi quyền
+                </button>
+
+                <button
+                  @click="confirmDelete(item.id)"
+                  class="p-1 bg-red-600 ml-3 rounded-[5px] hover:bg-blue-500 cursor-pointer text-white"
+                >
+                  Xóa user
                 </button>
               </td>
             </tr>
@@ -291,6 +301,41 @@ const handleUpdateRole = async (id) => {
     console.log(error.response?.data || error.message);
   }
 };
+// xoa user
+const confirmDelete = (id) => {
+  const ok = confirm("Bạn có chắc muốn xóa user này không?");
+
+  if (!ok) return;
+
+  handleDelete(id);
+};
+// ======xoa=================
+const message = ref("");
+const handleDelete = async (id) => {
+  const token = localStorage.getItem("token");
+  try {
+    const res = await axios.post(
+      `http://localhost/blog/backend/api/userAPI.php`,
+      {
+        action: "deleteUser",
+        id: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    message.value = res.data.message;
+    console.log(res.data);
+    console.log(id);
+    if (res.data.status) {
+      window.location.reload();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 // ====================xuat file======================
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -334,4 +379,4 @@ const exportPDF = () => {
 </script>
 
 // odd:bg-... → áp dụng cho hàng lẻ odd:bg-gray-800 // even:bg-... → áp dụng cho
-hàng chẵn
+hàng chẵn // odd:bg-red-800 even:bg-gray-700

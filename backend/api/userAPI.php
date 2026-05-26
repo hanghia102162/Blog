@@ -74,7 +74,10 @@ if($method === "POST" && $action ==="updateProfile"){
         echo json_encode($controller->updateProfile($user,$data));
         exit();
 }
-
+if($method === "POST" && $action === "deleteUser"){
+    echo json_encode($controller->deleteUser($data));
+    exit();
+}
 // =================================
 
 

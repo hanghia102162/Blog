@@ -33,5 +33,27 @@
             return ["status" => true, "message" => "Cập nhật thành công"];
         }
 
+        public function deleteUser($data){
+            $id = $data['id'] ?? '';
+            $user = $this->model->getUserById($id);
+            if(!$user){
+                return [
+                "status" => false,
+                "message" => "User không tồn tại!"
+                    ];
+            }
+
+            if($user['role'] === 'admin'){
+                return [
+                    "status" => false,
+                    "message" => "Không thể xóa admin!"
+                    ];
+            }
+            $this->model->deleteUser($data['id']);
+            return ["status" => true, 
+            "message" => "Xóa thành công",
+            "user"=>$user];
+        }
+
     }
 ?>

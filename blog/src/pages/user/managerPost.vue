@@ -68,7 +68,7 @@
               </td>
 
               <td class="p-4 text-gray-400">
-                {{ post.created_at }}
+                {{ new Date(post.published_at).toLocaleDateString("vi-VN") }}
               </td>
               <td class="p-4 text-gray-400">
                 {{ post.author }}
@@ -183,7 +183,7 @@ const handelPost = async () => {
 
     totalPages.value = res.data.total_pages;
     totalPosts.value = res.data.total;
-
+    console.log("day la du lieu dau ra");
     console.log(res.data);
   } catch (error) {
     console.log(error.response?.data || error);
@@ -238,3 +238,8 @@ const handeltru = () => {
 };
 // ===============================================
 </script>
+// odd:bg-... → áp dụng cho hàng lẻ odd:bg-gray-800 // even:bg-... → áp dụng cho
+hàng chẵn // odd:bg-red-800 even:bg-gray-700 // new // new
+Date(post.published_at).toLocaleDateString("vi-VN") // new new new
+Date(post.published_at).toISOString().split("T")[0] // nam thang new
+Date(post.published_at).toLocaleDateString("en-US") // thang nam ngay

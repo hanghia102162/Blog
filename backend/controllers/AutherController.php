@@ -66,7 +66,9 @@ use PHPMailer\PHPMailer\Exception;
     }
     public function Register($email,$password,$confirmPassword){
         $errors = [];
-
+        if (!preg_match('/[\W]/', $password)) {
+            $errors['password'] = "ít nhất 1 ký tự đặc biệt";
+        }
         if (strlen($password) < 6) {
             $errors['password'] = "ít nhất 6 ký tự";   
         }

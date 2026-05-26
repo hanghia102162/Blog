@@ -38,6 +38,44 @@ use LDAP\Result;
         $query = mysqli_query($this->conn,$sql);
         return $query;
     }
+
+
+
+    public function getUserById($id){
+        $id = (int)$id;
+
+        $sql = "SELECT * FROM users WHERE id = $id";
+
+        $query = mysqli_query($this->conn, $sql);
+
+        return mysqli_fetch_assoc($query);
     }
+
+    public function deleteUser($id){
+
+        $result = $this->getUserById($id);
+            if($result['role'] === 'admin'){
+            return [
+            "status" => false,
+            "message" => "Không thể xóa admin!"
+        ];
+        }
+
+        $id = (int)$id;
+
+        mysqli_query($this->conn,
+            "DELETE FROM comments WHERE user_id = $id"
+        );
+        mysqli_query(
+            $this->conn,
+            "DELETE FROM posts WHERE user_id = $id"
+        );
+        return mysqli_query($this->conn,
+            "DELETE FROM users WHERE id = $id"
+        );
+    }
+
+    
+}
     
 ?>
