@@ -69,6 +69,13 @@ use PHPMailer\PHPMailer\Exception;
         if (!preg_match('/[\W]/', $password)) {
             $errors['password'] = "ít nhất 1 ký tự đặc biệt";
         }
+        if (!preg_match('/[A-Z]/',  $password)) {
+            $errors['password'] = "Mật khẩu phải có ít nhất 1 chữ hoa";
+        }
+
+        if (!preg_match('/[a-z]/',  $password)) {
+            $errors['password'] = "Mật khẩu phải có ít nhất 1 chữ thường";
+        }
         if (strlen($password) < 6) {
             $errors['password'] = "ít nhất 6 ký tự";   
         }
@@ -124,6 +131,13 @@ use PHPMailer\PHPMailer\Exception;
         }
         if ($check) {
         $otp = rand(100000, 999999);
+        // $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // $otp = '';
+
+        // for ($i = 0; $i < 6; $i++) {
+        //     $otp .= $chars[random_int(0, strlen($chars) - 1)];
+        // }
+
 
         // lưu OTP vào session 
         session_start();
@@ -140,6 +154,8 @@ use PHPMailer\PHPMailer\Exception;
         $mail->SMTPAuth = true;
         $mail->Username = 'hanghia368@gmail.com'; 
         $mail->Password = 'toxzekkbubqkssvg';  
+        // $mail->Username = 'phisau1cogai01@gmail.com'; 
+        // $mail->Password = 'owpbfwxmlzwqntog';  
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
@@ -174,7 +190,7 @@ use PHPMailer\PHPMailer\Exception;
     public function checkOTP($otpInput,$confirmPassword,$password){
         session_start(); 
         $errors = [];
-
+        $otpInput = strtoupper(trim($otpInput));
         if (strlen($password) < 6) {
             $errors['password'] = "ít nhất 6 ký tự";   
         }

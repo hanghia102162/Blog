@@ -104,7 +104,17 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr v-for="item in users" :key="item.id" class="">
+            <tr
+              v-for="item in users"
+              :key="item.id"
+              :class="
+                item.role === 'admin'
+                  ? 'bg-blue-300'
+                  : item.role === 'author'
+                    ? 'bg-yellow-200'
+                    : 'bg-white'
+              "
+            >
               <td class="border">
                 <h2>{{ item.id }}</h2>
               </td>

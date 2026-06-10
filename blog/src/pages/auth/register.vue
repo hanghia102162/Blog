@@ -22,6 +22,7 @@
             placeholder=" "
             v-model="email"
             class="w-full peer p-2 shadow focus:outline-none"
+            required
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +57,7 @@
             placeholder=" "
             v-model="password"
             class="w-full peer focus:outline-none p-2 shadow"
+            required
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +92,7 @@
             placeholder=" "
             v-model="confirmPassword"
             class="w-full peer focus:outline-none p-2 shadow"
+            required
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

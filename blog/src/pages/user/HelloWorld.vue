@@ -16,8 +16,13 @@
         {{ "Tác giả: " + post.author + "-" + post.created_at }}
       </p>
       <p class="text-gray-600">
-        {{ "Thể loại: " + post.category_slug }}
+        {{ "Thể loại: " + post.category_name }}
       </p>
+      <!-- <video controls>
+        <source
+          src="C:\xampp\htdocs\Blog\blog\public\img\Vite App - Profile 1 - Microsoft​ Edge 2025-12-22 21-44-57.mp4"
+        />
+      </video> -->
       <router-link :to="`/articleDetails/${post.id}`">
         <div
           class="w-screen overflow-hidden md:w-[800px] md:h-[350px] h-[250px]"

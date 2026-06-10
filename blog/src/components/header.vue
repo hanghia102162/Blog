@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-500 relative z-100">
+  <div class="bg-blue-500 relative z-100 sticky top-0">
     <div
       class="max-w-[1400px] mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3"
     >

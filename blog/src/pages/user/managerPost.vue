@@ -30,11 +30,18 @@
           >
             + Soạn bài mới
           </router-link>
+          <!-- <button
+            @click="exportPDF"
+            class="bg-red-500 text-white px-5 py-3 rounded-xl"
+          >
+            Xuất PDF
+          </button> -->
         </div>
       </div>
 
       <!-- table -->
       <div
+        ref="pdfContent"
         class="hidden md:block overflow-hidden rounded-xl border border-gray-100"
       >
         <table class="w-full text-sm">
@@ -68,9 +75,21 @@
               </td>
 
               <td class="p-4 text-gray-400">
-                {{ new Date(post.published_at).toLocaleDateString("vi-VN") }}
+                {{
+                  new Date(post.published_at).toLocaleString("vi-VN", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })
+                }}
               </td>
-              <td class="p-4 text-gray-400">
+              <td
+                class="p-4 text-gray-400"
+                :class="{ 'text-red-500': post.role === 'admin' }"
+              >
                 {{ post.author }}
               </td>
 
@@ -82,7 +101,7 @@
                   Sửa
                 </router-link>
                 <button
-                  @click="handelPostDelete(post.id)"
+                  @click="confirmDelete(post.id)"
                   class="text-red-500 hover:text-red-700 font-medium transition"
                 >
                   Xóa
@@ -158,7 +177,8 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted, watch } from "vue";
-
+// import { jsPDF } from "jspdf";
+// import autoTable from "jspdf-autotable";
 const posts = ref([]);
 
 // ================= PHÂN TRANG =================
@@ -180,6 +200,8 @@ const handelPost = async () => {
       },
     );
     posts.value = res.data.data;
+    console.log("day la post");
+    console.log(posts.value);
 
     totalPages.value = res.data.total_pages;
     totalPosts.value = res.data.total;
@@ -237,9 +259,37 @@ const handeltru = () => {
   }
 };
 // ===============================================
+const confirmDelete = (id) => {
+  const check = confirm("Bạn có chắc muốn xóa bài viết này không?");
+
+  if (check) {
+    handelPostDelete(id);
+  }
+};
+// =======================xuta file =============
+// const exportPDF = () => {
+//   const doc = new jsPDF();
+
+//   autoTable(doc, {
+//     head: [["Tên bài viết", "Chuyên mục", "Ngày đăng", "Tác giả"]],
+//     body: posts.value.map((post) => [
+//       post.title.replace(/<[^>]*>/g, "").slice(0, 45),
+//       post.category_name,
+//       new Date(post.published_at).toLocaleDateString("vi-VN"),
+//       post.author,
+//     ]),
+//   });
+
+//   doc.save("posts.pdf");
+// };
 </script>
 // odd:bg-... → áp dụng cho hàng lẻ odd:bg-gray-800 // even:bg-... → áp dụng cho
 hàng chẵn // odd:bg-red-800 even:bg-gray-700 // new // new
-Date(post.published_at).toLocaleDateString("vi-VN") // new new new
+Date(post.published_at).toLocaleDateString("vi-VN") // ngay thang nam
 Date(post.published_at).toISOString().split("T")[0] // nam thang new
-Date(post.published_at).toLocaleDateString("en-US") // thang nam ngay
+Date(post.published_at).toLocaleDateString("en-US") // thang nam ngay //
+{{ new Date(post.published_at).toLocaleString("vi-VN") }} ngay gio//
+:class="{'text-red-500': post.author.toLowerCase() === 'hanghia368',}"
+:class="post.role === 'admin' ? 'text-red-500' : 'text-green-500'"
+:class="item.role === 'admin'? 'bg-blue-300': item.role === 'author' ?
+'bg-yellow-200': 'bg-white' "
