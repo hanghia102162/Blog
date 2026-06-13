@@ -34,7 +34,7 @@
         <div class="h-[600px] mb-4">
           <Editor
             v-model="content"
-            api-key="erxnm0nxncqfujgof3posl2bs0ei975kvumxak9rhgnq60r9"
+            api-key="ji5ng2diexdi8na59fu2ebdmy93jdqr12o657b4vfz4tzztg"
             :init="editorConfig"
           />
         </div>

@@ -192,11 +192,26 @@ use PHPMailer\PHPMailer\Exception;
         $errors = [];
         $otpInput = strtoupper(trim($otpInput));
         if (strlen($password) < 6) {
-            $errors['password'] = "ít nhất 6 ký tự";   
+            $errors['password'] = "Ít nhất 6 ký tự";   
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors['password'] = "Ít nhất 1 chữ hoa";
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            $errors['password']= "Ít nhất 1 chữ thường";
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            $errors['password'] = "Ít nhất 1 chữ số";
+        }
+
+        if (!preg_match('/[\W]/', $password)) {
+            $errors['password'] = "Ít nhất 1 ký tự đặc biệt";
         }
 
         if (strlen($confirmPassword) < 6) {
-            $errors['confirmPassword'] = "ít nhất 6 ký tự";
+            $errors['confirmPassword'] = "Ít nhất 6 ký tự";
         }
 
         if ($password !== $confirmPassword) {
